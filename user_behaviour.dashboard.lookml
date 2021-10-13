@@ -2,6 +2,7 @@
   title: End User Behaviour
   layout: newspaper
   preferred_viewer: dashboards
+  query_timezone: user_timezone
   elements:
   - title: Heavy Queries
     name: Heavy Queries
@@ -22,6 +23,7 @@
     dynamic_fields: [{category: table_calculation, expression: 'NOT contains(${query.filters},"101,
           102")', label: is not for all platforms, value_format: !!null '', value_format_name: !!null '',
         _kind_hint: dimension, table_calculation: is_not_for_all_platforms, _type_hint: yesno}]
+    query_timezone: user_timezone
     show_view_names: false
     show_row_numbers: true
     transpose: false
@@ -74,6 +76,7 @@
     dynamic_fields: [{category: dimension, expression: 'substring(${history.dashboard_id},position(${history.dashboard_id},":")+2,100)',
         label: Dashboard, value_format: !!null '', value_format_name: !!null '', dimension: dashboard,
         _kind_hint: dimension, _type_hint: string}]
+    query_timezone: user_timezone
     x_axis_gridlines: false
     y_axis_gridlines: true
     show_view_names: false
@@ -146,6 +149,7 @@
       history.id, query.id, query.link, query.formatted_fields]
     sorts: [history.created_time desc]
     limit: 500
+    query_timezone: user_timezone
     column_limit: 50
     show_view_names: false
     show_row_numbers: true
@@ -197,7 +201,7 @@
       query.model: '"pa_general"'
     sorts: [history.runtime_tiers_5]
     limit: 500
-    query_timezone: America/New_York
+    query_timezone: user_timezone
     x_axis_gridlines: false
     y_axis_gridlines: true
     show_view_names: false
@@ -251,6 +255,7 @@
     dynamic_fields: [{category: dimension, expression: 'substring(${history.message},position(${history.message},"invalid"),100)',
         label: Error Message, value_format: !!null '', value_format_name: '', dimension: error_message,
         _kind_hint: dimension, _type_hint: string}]
+    query_timezone: user_timezone
     x_axis_gridlines: false
     y_axis_gridlines: false
     show_view_names: true
@@ -327,7 +332,7 @@
       history.result_source: query
       query.model: '"pa_general"'
     limit: 500
-    query_timezone: America/New_York
+    query_timezone: user_timezone
     custom_color_enabled: true
     show_single_value_title: true
     show_comparison: false
@@ -405,6 +410,7 @@
         series: [{axisId: history.average_runtime, id: history.average_runtime, name: Average
               Runtime in Seconds}], showLabels: true, showValues: true, unpinAxis: false,
         tickDensity: default, tickDensityCustom: 5, type: linear}]
+    query_timezone: user_timezone
     show_y_axis_labels: true
     show_y_axis_ticks: true
     y_axis_tick_density: default
@@ -489,6 +495,7 @@
         series: [{axisId: history.average_runtime, id: history.average_runtime, name: Average
               Runtime in Seconds}], showLabels: true, showValues: true, unpinAxis: false,
         tickDensity: default, tickDensityCustom: 5, type: linear}]
+    query_timezone: user_timezone
     series_types:
       history.average_runtime: area
     series_colors:
@@ -536,7 +543,7 @@
       {category: measure, expression: !!null '', label: days in period, value_format: !!null '',
         value_format_name: !!null '', based_on: history.completed_date, _kind_hint: measure,
         measure: days_in_period, type: count_distinct, _type_hint: number}]
-    query_timezone: America/New_York
+    query_timezone: user_timezone
     custom_color_enabled: true
     show_single_value_title: true
     show_comparison: false
@@ -595,6 +602,7 @@
     fields: [history.average_runtime]
     filters: {}
     limit: 500
+    query_timezone: user_timezone
     filter_expression: "(${user_facts.is_explorer} OR ${user_facts.is_content_saver})"
     custom_color_enabled: true
     show_single_value_title: true
