@@ -1,14 +1,14 @@
 - dashboard: end_user_behaviour
   title: End User Behaviour
   layout: newspaper
-  preferred_viewer: dashboards
+  preferred_viewer: dashboards-next
   elements:
   - title: Heavy Queries
     name: Heavy Queries
     model: system__activity
     explore: history
     type: looker_grid
-    fields: [history.created_time, history.runtime, history.id, query.filters]
+    fields: [history.created_time, history.runtime, history.id]
     filters:
       history.runtime: ''
       history.source: dashboard
@@ -17,7 +17,7 @@
       dashboard.id: 'NULL'
       dashboard.title: 'NULL'
       model_set.models: '"pa_general"'
-    sorts: [history.created_time desc, history.runtime desc]
+    sorts: [history.runtime desc, history.created_time desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, expression: 'NOT contains(${query.filters},"101,
           102")', label: is not for all platforms, value_format: !!null '', value_format_name: !!null '',
@@ -42,7 +42,7 @@
       query.filters: 443
     defaults_version: 1
     hidden_points_if_no: [is_for_all, is_not_for_all_platforms]
-    hidden_fields: [query.filters]
+    hidden_fields: []
     listen:
       Completed Date: history.completed_date
       Is Admin (Yes / No): user_facts.is_admin
@@ -142,12 +142,12 @@
     model: system__activity
     explore: history
     type: looker_grid
-    fields: [history.created_time, history.status, user.name, history.runtime, history.source,
-      history.id, query.id, query.link, query.formatted_fields]
+    fields: [history.created_time, history.status, user.id, user.name, history.runtime,
+      history.source, query.id, query.link, query.formatted_fields, history.id]
     sorts: [history.created_time desc]
     limit: 500
     column_limit: 50
-    show_view_names: false
+    show_view_names: true
     show_row_numbers: true
     transpose: false
     truncate_text: true
@@ -166,11 +166,18 @@
     show_totals: true
     show_row_totals: true
     series_labels: {}
+    series_column_widths:
+      history.created_time: 139
+      history.status: 106
+      history.runtime: 147
+      history.source: 120
+      history.id: 122
+      user.id: 81
     conditional_formatting: [{type: along a scale..., value: !!null '', background_color: "#00B2A9",
         font_color: !!null '', color_application: {collection_id: dv-palette, palette_id: dv-palette-sequential-0,
           options: {steps: 6, reverse: false, stepped: true}}, bold: false, italic: false,
         strikethrough: false, fields: [history.runtime]}]
-    hidden_fields: [history.id, query.id, query.formatted_fields, user.name]
+    hidden_fields: [query.id, user.name, query.link]
     defaults_version: 1
     series_types: {}
     hidden_points_if_no: []
@@ -316,7 +323,7 @@
     row: 18
     col: 0
     width: 24
-    height: 5
+    height: 3
   - title: Dashboards Run Count
     name: Dashboards Run Count
     model: system__activity
@@ -384,7 +391,6 @@
     explore: user
     type: single_value
     fields: [user.count]
-    filters: {}
     limit: 500
     filter_expression: "(${user_facts.is_explorer} OR ${user_facts.is_content_saver})"
     custom_color_enabled: true
@@ -455,7 +461,6 @@
     type: looker_line
     fields: [user.count, history.completed_date, history.average_runtime]
     fill_fields: [history.completed_date]
-    filters: {}
     sorts: [history.completed_date desc]
     limit: 500
     filter_expression: "(${user_facts.is_explorer} OR ${user_facts.is_content_saver})"
@@ -593,7 +598,6 @@
     explore: user
     type: single_value
     fields: [history.average_runtime]
-    filters: {}
     limit: 500
     filter_expression: "(${user_facts.is_explorer} OR ${user_facts.is_content_saver})"
     custom_color_enabled: true
@@ -622,6 +626,47 @@
     col: 0
     width: 6
     height: 3
+  - title: Downloas and Sending Data
+    name: Downloas and Sending Data
+    model: system__activity
+    explore: event_attribute
+    type: looker_grid
+    fields: [event.created_time, user.id, user.name, event_attribute.name, event_attribute.value]
+    filters:
+      event.category: query
+      event.name: '"export_query"'
+      event_attribute.value: -"json_fe"
+      event_attribute.name: '"export_format"'
+    sorts: [event.created_time desc]
+    limit: 5000
+    query_timezone: America/New_York
+    show_view_names: false
+    show_row_numbers: true
+    transpose: false
+    truncate_text: true
+    hide_totals: false
+    hide_row_totals: false
+    size_to_fit: true
+    table_theme: white
+    limit_displayed_rows: false
+    enable_conditional_formatting: false
+    header_text_alignment: left
+    header_font_size: 12
+    rows_font_size: 12
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    defaults_version: 1
+    listen:
+      Completed Date: event.created_date
+      Is Admin (Yes / No): event.is_admin
+      Is Developer (Yes / No): user_facts.is_developer
+      Is Embed (Yes / No): user_facts.is_embed
+      Is Looker Employee (Yes / No): event.is_looker_employee
+      Is Disabled (Yes / No): user.is_disabled
+    row: 21
+    col: 0
+    width: 24
+    height: 5
   filters:
   - name: Completed Date
     title: Completed Date
