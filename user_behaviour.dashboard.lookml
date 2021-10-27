@@ -634,8 +634,8 @@
     col: 0
     width: 6
     height: 3
-  - title: Downloas and Sending Data
-    name: Downloas and Sending Data
+  - title: Downloads and Sending Data
+    name: Downloads and Sending Data
     model: system__activity
     explore: event_attribute
     type: looker_grid
