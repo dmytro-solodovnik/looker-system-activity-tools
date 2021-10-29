@@ -2,6 +2,7 @@
   title: Dashboard Performance
   layout: newspaper
   preferred_viewer: dashboards-next
+  query_timezone: user_timezone
   elements:
   - title: Cache vs Query
     name: Cache vs Query
@@ -216,7 +217,7 @@
       history.average_runtime]
     pivots: [history.result_source]
     filters: {}
-    sorts: [history.real_dash_id desc]
+    sorts: [history.real_dash_id desc, history.result_source desc]
     limit: 5000
     total: true
     dynamic_fields: [{category: dimension, description: '', label: Result Source Groups,
@@ -253,11 +254,11 @@
       history.average_runtime:
         is_active: true
         palette:
-          palette_id: 251ec74b-323f-c15d-5d54-e294bb02eda8
+          palette_id: 15408e14-414f-57a1-ab33-5bfeadfc6e8f
           collection_id: dv-palette
           custom_colors:
           - "#23992e"
-          - "#FFFFFF"
+          - "#ffea89"
           - "#b25e7e"
         value_display: true
     x_axis_gridlines: false
