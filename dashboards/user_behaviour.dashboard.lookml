@@ -149,8 +149,8 @@
       history.source, query.id, query.link, query.formatted_fields, history.id]
     sorts: [history.created_time desc]
     limit: 500
-    query_timezone: user_timezone
     column_limit: 50
+    query_timezone: user_timezone
     show_view_names: true
     show_row_numbers: true
     transpose: false
@@ -398,6 +398,7 @@
     fields: [user.count]
     limit: 500
     filter_expression: "(${user_facts.is_explorer} OR ${user_facts.is_content_saver})"
+    query_timezone: user_timezone
     custom_color_enabled: true
     show_single_value_title: true
     show_comparison: false
@@ -416,7 +417,6 @@
         series: [{axisId: history.average_runtime, id: history.average_runtime, name: Average
               Runtime in Seconds}], showLabels: true, showValues: true, unpinAxis: false,
         tickDensity: default, tickDensityCustom: 5, type: linear}]
-    query_timezone: user_timezone
     show_y_axis_labels: true
     show_y_axis_ticks: true
     y_axis_tick_density: default
@@ -470,6 +470,7 @@
     sorts: [history.completed_date desc]
     limit: 500
     filter_expression: "(${user_facts.is_explorer} OR ${user_facts.is_content_saver})"
+    query_timezone: user_timezone
     x_axis_gridlines: false
     y_axis_gridlines: true
     show_view_names: false
@@ -500,7 +501,6 @@
         series: [{axisId: history.average_runtime, id: history.average_runtime, name: Average
               Runtime in Seconds}], showLabels: true, showValues: true, unpinAxis: false,
         tickDensity: default, tickDensityCustom: 5, type: linear}]
-    query_timezone: user_timezone
     series_types:
       history.average_runtime: area
     series_colors:
@@ -606,8 +606,8 @@
     type: single_value
     fields: [history.average_runtime]
     limit: 500
-    query_timezone: user_timezone
     filter_expression: "(${user_facts.is_explorer} OR ${user_facts.is_content_saver})"
+    query_timezone: user_timezone
     custom_color_enabled: true
     show_single_value_title: true
     show_comparison: false
@@ -646,7 +646,7 @@
       event_attribute.value: -"json_fe"
       event_attribute.name: '"export_format"'
     sorts: [event.created_time desc]
-    limit: 5000
+    limit: 500
     query_timezone: America/New_York
     show_view_names: false
     show_row_numbers: true
@@ -671,10 +671,48 @@
       Is Embed (Yes / No): user_facts.is_embed
       Is Looker Employee (Yes / No): event.is_looker_employee
       Is Disabled (Yes / No): user.is_disabled
-    row: 21
+    row: 25
     col: 0
     width: 24
     height: 5
+  - title: 'Scheduled content - Unlimited results '
+    name: 'Scheduled content - Unlimited results '
+    model: system__activity
+    explore: scheduled_plan
+    type: looker_grid
+    fields: [scheduled_job.id, user.id, user.name, user.edit_link, scheduled_job.created_time,
+      scheduled_job.finalized_time, scheduled_job.count]
+    filters:
+      scheduled_plan.send_all_results: 'Yes'
+    sorts: [scheduled_job.created_time desc]
+    limit: 500
+    show_view_names: false
+    show_row_numbers: true
+    transpose: false
+    truncate_text: true
+    hide_totals: false
+    hide_row_totals: false
+    size_to_fit: true
+    table_theme: white
+    limit_displayed_rows: false
+    enable_conditional_formatting: false
+    header_text_alignment: left
+    header_font_size: 12
+    rows_font_size: 12
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    defaults_version: 1
+    listen:
+      Completed Date: scheduled_job.created_date
+      Is Admin (Yes / No): user_facts.is_admin
+      Is Developer (Yes / No): user_facts.is_developer
+      Is Embed (Yes / No): user_facts.is_embed
+      Is Looker Employee (Yes / No): user_facts.is_looker_employee
+      Is Disabled (Yes / No): user.is_disabled
+    row: 21
+    col: 0
+    width: 24
+    height: 4
   filters:
   - name: Completed Date
     title: Completed Date
