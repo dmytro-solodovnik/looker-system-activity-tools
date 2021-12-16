@@ -1,5 +1,5 @@
-- dashboard: end_user_behaviour_2
-  title: End User Behaviour 2
+- dashboard: end_user_behaviour
+  title: End User Behaviour
   layout: newspaper
   preferred_viewer: dashboards-next
   description: ''
