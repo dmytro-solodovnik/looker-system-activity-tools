@@ -41,8 +41,10 @@
     listen:
       Completed Date: history.completed_date
       LookML Dashboard: history.real_dash_id
-      User ID: user_facts.user_id
       Query Status: history.status
+      Looker User ID: user_facts.user_id
+      Salesforce External ID: user_facts.external_id
+      Is Embed (Yes / No): user_facts.is_embed
     row: 6
     col: 16
     width: 8
@@ -114,8 +116,10 @@
     listen:
       Completed Date: history.completed_date
       LookML Dashboard: history.real_dash_id
-      User ID: user_facts.user_id
       Query Status: history.status
+      Looker User ID: user_facts.user_id
+      Salesforce External ID: user_facts.external_id
+      Is Embed (Yes / No): user_facts.is_embed
     row: 6
     col: 0
     width: 8
@@ -167,7 +171,9 @@
     hidden_points_if_no: []
     listen:
       Completed Date: history.completed_date
-      User ID: user_facts.user_id
+      Looker User ID: user_facts.user_id
+      Salesforce External ID: user_facts.external_id
+      Is Embed (Yes / No): user_facts.is_embed
     row: 15
     col: 0
     width: 24
@@ -215,8 +221,10 @@
     listen:
       Completed Date: history.completed_date
       LookML Dashboard: history.real_dash_id
-      User ID: user_facts.user_id
       Query Status: history.status
+      Looker User ID: user_facts.user_id
+      Salesforce External ID: user_facts.external_id
+      Is Embed (Yes / No): user_facts.is_embed
     row: 6
     col: 8
     width: 8
@@ -307,7 +315,9 @@
     total_color: false
     listen:
       Completed Date: history.completed_date
-      User ID: user_facts.user_id
+      Looker User ID: user_facts.user_id
+      Salesforce External ID: user_facts.external_id
+      Is Embed (Yes / No): user_facts.is_embed
     row: 20
     col: 0
     width: 24
@@ -362,8 +372,10 @@
     listen:
       Completed Date: history.completed_date
       LookML Dashboard: history.real_dash_id
-      User ID: user_facts.user_id
       Query Status: history.status
+      Looker User ID: user_facts.user_id
+      Salesforce External ID: user_facts.external_id
+      Is Embed (Yes / No): user_facts.is_embed
     row: 0
     col: 18
     width: 6
@@ -431,8 +443,10 @@
     listen:
       Completed Date: history.completed_date
       LookML Dashboard: history.real_dash_id
-      User ID: user_facts.user_id
       Query Status: history.status
+      Looker User ID: user_facts.user_id
+      Salesforce External ID: user_facts.external_id
+      Is Embed (Yes / No): user_facts.is_embed
     row: 0
     col: 0
     width: 6
@@ -505,8 +519,10 @@
     listen:
       Completed Date: history.completed_date
       LookML Dashboard: history.real_dash_id
-      User ID: user_facts.user_id
       Query Status: history.status
+      Looker User ID: user_facts.user_id
+      Salesforce External ID: user_facts.external_id
+      Is Embed (Yes / No): user_facts.is_embed
     row: 0
     col: 6
     width: 12
@@ -567,8 +583,10 @@
     listen:
       Completed Date: history.completed_date
       LookML Dashboard: history.real_dash_id
-      User ID: user_facts.user_id
       Query Status: history.status
+      Looker User ID: user_facts.user_id
+      Salesforce External ID: user_facts.external_id
+      Is Embed (Yes / No): user_facts.is_embed
     row: 3
     col: 18
     width: 6
@@ -601,8 +619,10 @@
     listen:
       Completed Date: history.completed_date
       LookML Dashboard: history.real_dash_id
-      User ID: user_facts.user_id
       Query Status: history.status
+      Looker User ID: user_facts.user_id
+      Salesforce External ID: user_facts.external_id
+      Is Embed (Yes / No): user_facts.is_embed
     row: 3
     col: 0
     width: 6
@@ -642,7 +662,9 @@
     defaults_version: 1
     listen:
       Completed Date: event.created_date
-      User ID: user_facts.user_id
+      Looker User ID: user_facts.user_id
+      Salesforce External ID: user_facts.external_id
+      Is Embed (Yes / No): user_facts.is_embed
     row: 28
     col: 0
     width: 24
@@ -682,7 +704,9 @@
     defaults_version: 1
     listen:
       Completed Date: scheduled_job.created_date
-      User ID: user_facts.user_id
+      Looker User ID: user_facts.user_id
+      Salesforce External ID: user_facts.external_id
+      Is Embed (Yes / No): user_facts.is_embed
     row: 24
     col: 0
     width: 24
@@ -728,10 +752,10 @@
       - pa_general::summary_groupm
     model: system__activity
     explore: history
-    listens_to_filters: [User ID]
+    listens_to_filters: [Looker User ID]
     field: history.real_dash_id
-  - name: Is Embed User (Yes / No)
-    title: Is Embed User (Yes / No)
+  - name: Is Embed (Yes / No)
+    title: Is Embed (Yes / No)
     type: string_filter
     default_value: 'Yes'
     allow_multiple_values: true
@@ -740,8 +764,22 @@
       type: button_group
       display: inline
       options: []
-  - name: User ID
-    title: User ID
+  - name: Salesforce External ID
+    title: Salesforce External ID
+    type: field_filter
+    default_value: ''
+    allow_multiple_values: true
+    required: false
+    ui_config:
+      type: tag_list
+      display: popover
+      options: []
+    model: system__activity
+    explore: history
+    listens_to_filters: []
+    field: user_facts.external_id
+  - name: Looker User ID
+    title: Looker User ID
     type: field_filter
     default_value: ''
     allow_multiple_values: true
