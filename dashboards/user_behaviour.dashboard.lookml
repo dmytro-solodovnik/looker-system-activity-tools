@@ -1,8 +1,8 @@
 - dashboard: end_user_behaviour
-  title: End User Behaviour ()
+  title: End User Behaviour (Legacy Version of the Dashboard to be able to use string filters for system_activity model)
   layout: newspaper
   preferred_viewer: dashboards
-  description: 'Legacy Version of the Dashboard to be able to support system_activity model and use string filters'
+  description: 'Legacy Version of the Dashboard to be able to use string filters for system_activity model'
   query_timezone: user_timezone
   elements:
   - title: Heavy Queries
