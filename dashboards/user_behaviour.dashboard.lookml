@@ -1,8 +1,8 @@
 - dashboard: end_user_behaviour
-  title: End User Behaviour
+  title: End User Behaviour ()
   layout: newspaper
-  preferred_viewer: dashboards-next
-  description: ''
+  preferred_viewer: dashboards
+  description: 'Legacy Version of the Dashboard to be able to support system_activity model and use string filters'
   query_timezone: user_timezone
   elements:
   - title: Heavy Queries
@@ -41,10 +41,10 @@
     listen:
       Completed Date: history.completed_date
       LookML Dashboard: history.real_dash_id
-      Query Status: history.status
-      Looker User ID: user_facts.user_id
-      Salesforce External ID: user_facts.external_id
       Is Embed (Yes / No): user_facts.is_embed
+      Salesforce External ID: user_facts.external_id
+      Looker User ID: user_facts.user_id
+      Query Status: history.status
     row: 6
     col: 16
     width: 8
@@ -116,10 +116,10 @@
     listen:
       Completed Date: history.completed_date
       LookML Dashboard: history.real_dash_id
-      Query Status: history.status
-      Looker User ID: user_facts.user_id
-      Salesforce External ID: user_facts.external_id
       Is Embed (Yes / No): user_facts.is_embed
+      Salesforce External ID: user_facts.external_id
+      Looker User ID: user_facts.user_id
+      Query Status: history.status
     row: 6
     col: 0
     width: 8
@@ -171,9 +171,9 @@
     hidden_points_if_no: []
     listen:
       Completed Date: history.completed_date
-      Looker User ID: user_facts.user_id
-      Salesforce External ID: user_facts.external_id
       Is Embed (Yes / No): user_facts.is_embed
+      Salesforce External ID: user_facts.external_id
+      Looker User ID: user_facts.user_id
     row: 15
     col: 0
     width: 24
@@ -221,10 +221,10 @@
     listen:
       Completed Date: history.completed_date
       LookML Dashboard: history.real_dash_id
-      Query Status: history.status
-      Looker User ID: user_facts.user_id
-      Salesforce External ID: user_facts.external_id
       Is Embed (Yes / No): user_facts.is_embed
+      Salesforce External ID: user_facts.external_id
+      Looker User ID: user_facts.user_id
+      Query Status: history.status
     row: 6
     col: 8
     width: 8
@@ -315,9 +315,9 @@
     total_color: false
     listen:
       Completed Date: history.completed_date
-      Looker User ID: user_facts.user_id
-      Salesforce External ID: user_facts.external_id
       Is Embed (Yes / No): user_facts.is_embed
+      Salesforce External ID: user_facts.external_id
+      Looker User ID: user_facts.user_id
     row: 20
     col: 0
     width: 24
@@ -372,10 +372,10 @@
     listen:
       Completed Date: history.completed_date
       LookML Dashboard: history.real_dash_id
-      Query Status: history.status
-      Looker User ID: user_facts.user_id
-      Salesforce External ID: user_facts.external_id
       Is Embed (Yes / No): user_facts.is_embed
+      Salesforce External ID: user_facts.external_id
+      Looker User ID: user_facts.user_id
+      Query Status: history.status
     row: 0
     col: 18
     width: 6
@@ -443,10 +443,10 @@
     listen:
       Completed Date: history.completed_date
       LookML Dashboard: history.real_dash_id
-      Query Status: history.status
-      Looker User ID: user_facts.user_id
-      Salesforce External ID: user_facts.external_id
       Is Embed (Yes / No): user_facts.is_embed
+      Salesforce External ID: user_facts.external_id
+      Looker User ID: user_facts.user_id
+      Query Status: history.status
     row: 0
     col: 0
     width: 6
@@ -519,10 +519,10 @@
     listen:
       Completed Date: history.completed_date
       LookML Dashboard: history.real_dash_id
-      Query Status: history.status
-      Looker User ID: user_facts.user_id
-      Salesforce External ID: user_facts.external_id
       Is Embed (Yes / No): user_facts.is_embed
+      Salesforce External ID: user_facts.external_id
+      Looker User ID: user_facts.user_id
+      Query Status: history.status
     row: 0
     col: 6
     width: 12
@@ -583,10 +583,10 @@
     listen:
       Completed Date: history.completed_date
       LookML Dashboard: history.real_dash_id
-      Query Status: history.status
-      Looker User ID: user_facts.user_id
-      Salesforce External ID: user_facts.external_id
       Is Embed (Yes / No): user_facts.is_embed
+      Salesforce External ID: user_facts.external_id
+      Looker User ID: user_facts.user_id
+      Query Status: history.status
     row: 3
     col: 18
     width: 6
@@ -619,10 +619,10 @@
     listen:
       Completed Date: history.completed_date
       LookML Dashboard: history.real_dash_id
-      Query Status: history.status
-      Looker User ID: user_facts.user_id
-      Salesforce External ID: user_facts.external_id
       Is Embed (Yes / No): user_facts.is_embed
+      Salesforce External ID: user_facts.external_id
+      Looker User ID: user_facts.user_id
+      Query Status: history.status
     row: 3
     col: 0
     width: 6
@@ -662,9 +662,9 @@
     defaults_version: 1
     listen:
       Completed Date: event.created_date
-      Looker User ID: user_facts.user_id
-      Salesforce External ID: user_facts.external_id
       Is Embed (Yes / No): user_facts.is_embed
+      Salesforce External ID: user_facts.external_id
+      Looker User ID: user_facts.user_id
     row: 28
     col: 0
     width: 24
@@ -704,9 +704,9 @@
     defaults_version: 1
     listen:
       Completed Date: scheduled_job.created_date
-      Looker User ID: user_facts.user_id
-      Salesforce External ID: user_facts.external_id
       Is Embed (Yes / No): user_facts.is_embed
+      Salesforce External ID: user_facts.external_id
+      Looker User ID: user_facts.user_id
     row: 24
     col: 0
     width: 24
@@ -725,7 +725,7 @@
   - name: Completed Date
     title: Completed Date
     type: date_filter
-    default_value: 7 day ago for 7 day
+    default_value: 7 days ago for 7 days
     allow_multiple_values: true
     required: true
     ui_config:
@@ -735,7 +735,7 @@
   - name: LookML Dashboard
     title: LookML Dashboard
     type: field_filter
-    default_value: '"pa_general::blocking","pa_general::blocking_disclosure","pa_general::monitoring","pa_general::monitoring_disclosure","pa_general::monitoring_spotx","pa_general::monitoring_spotx_disclosure","pa_general::network_wide_viewability","pa_general::summary_groupm"'
+    default_value: pa^_general%
     allow_multiple_values: true
     required: false
     ui_config:
