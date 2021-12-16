@@ -1,7 +1,8 @@
-- dashboard: end_user_behaviour
-  title: End User Behaviour
+- dashboard: end_user_behaviour_2
+  title: End User Behaviour 2
   layout: newspaper
   preferred_viewer: dashboards-next
+  description: ''
   query_timezone: user_timezone
   elements:
   - title: Heavy Queries
@@ -9,16 +10,8 @@
     model: system__activity
     explore: history
     type: looker_grid
-    fields: [history.created_time, history.runtime, history.id]
-    filters:
-      history.runtime: ''
-      history.source: dashboard
-      history.is_single_query: 'Yes'
-      history.status: complete
-      dashboard.id: 'NULL'
-      dashboard.title: 'NULL'
-      model_set.models: '"pa_general"'
-    sorts: [history.runtime desc, history.created_time desc]
+    fields: [history.id, history.created_time, history.runtime, query.filters]
+    sorts: [history.runtime desc]
     limit: 500
     dynamic_fields: [{category: table_calculation, expression: 'NOT contains(${query.filters},"101,
           102")', label: is not for all platforms, value_format: !!null '', value_format_name: !!null '',
@@ -44,14 +37,12 @@
       query.filters: 443
     defaults_version: 1
     hidden_points_if_no: [is_for_all, is_not_for_all_platforms]
-    hidden_fields: []
+    hidden_fields: [query.filters]
     listen:
       Completed Date: history.completed_date
-      Is Admin (Yes / No): user_facts.is_admin
-      Is Developer (Yes / No): user_facts.is_developer
-      Is Embed (Yes / No): user_facts.is_embed
-      Is Looker Employee (Yes / No): user_facts.is_looker_employee
-      Is Disabled (Yes / No): user.is_disabled
+      LookML Dashboard: history.real_dash_id
+      User ID: user_facts.user_id
+      Query Status: history.status
     row: 6
     col: 16
     width: 8
@@ -62,15 +53,6 @@
     explore: history
     type: looker_boxplot
     fields: [history.min_runtime, history.average_runtime, history.max_runtime, dashboard]
-    filters:
-      history.runtime: ''
-      history.real_dash_id: "-NULL"
-      history.is_single_query: 'Yes'
-      history.status: complete
-      dashboard.id: 'NULL'
-      dashboard.title: 'NULL'
-      history.source: dashboard
-      model_set.models: '"pa_general"'
     sorts: [dashboard]
     limit: 500
     dynamic_fields: [{category: dimension, expression: 'substring(${history.dashboard_id},position(${history.dashboard_id},":")+2,100)',
@@ -131,11 +113,9 @@
     hidden_fields:
     listen:
       Completed Date: history.completed_date
-      Is Admin (Yes / No): user_facts.is_admin
-      Is Developer (Yes / No): user_facts.is_developer
-      Is Embed (Yes / No): user_facts.is_embed
-      Is Looker Employee (Yes / No): user_facts.is_looker_employee
-      Is Disabled (Yes / No): user.is_disabled
+      LookML Dashboard: history.real_dash_id
+      User ID: user_facts.user_id
+      Query Status: history.status
     row: 6
     col: 0
     width: 8
@@ -187,12 +167,8 @@
     hidden_points_if_no: []
     listen:
       Completed Date: history.completed_date
-      Is Admin (Yes / No): user_facts.is_admin
-      Is Developer (Yes / No): user_facts.is_developer
-      Is Embed (Yes / No): user_facts.is_embed
-      Is Looker Employee (Yes / No): user_facts.is_looker_employee
-      Is Disabled (Yes / No): user.is_disabled
-    row: 13
+      User ID: user_facts.user_id
+    row: 15
     col: 0
     width: 24
     height: 5
@@ -202,10 +178,8 @@
     explore: history
     type: looker_column
     fields: [history.runtime_tiers_5, history.query_run_count]
-    fill_fields: [history.runtime_tiers_5]
     filters:
-      history.result_source: query
-      query.model: '"pa_general"'
+      history.runtime_tiers_5: "-Undefined"
     sorts: [history.runtime_tiers_5]
     limit: 500
     query_timezone: user_timezone
@@ -240,11 +214,9 @@
     hidden_fields: []
     listen:
       Completed Date: history.completed_date
-      Is Admin (Yes / No): user_facts.is_admin
-      Is Developer (Yes / No): user_facts.is_developer
-      Is Embed (Yes / No): user_facts.is_embed
-      Is Looker Employee (Yes / No): user_facts.is_looker_employee
-      Is Disabled (Yes / No): user.is_disabled
+      LookML Dashboard: history.real_dash_id
+      User ID: user_facts.user_id
+      Query Status: history.status
     row: 6
     col: 8
     width: 8
@@ -256,7 +228,7 @@
     type: looker_bar
     fields: [history.count, error_message]
     filters:
-      history.message: "%SQL Syntax Error%"
+      history.message: "%error%"
     sorts: [history.count desc]
     limit: 500
     dynamic_fields: [{category: dimension, expression: 'substring(${history.message},position(${history.message},"invalid"),100)',
@@ -298,12 +270,27 @@
       first_last: first
       num_rows: 0
     series_types: {}
+    series_colors:
+      history.count: "#FF8168"
+    show_sql_query_menu_options: false
+    column_order: ["$$$_row_numbers_$$$", history.message, history.created_time, history.id,
+      query.id, query.link]
+    show_totals: true
+    show_row_totals: true
     show_row_numbers: true
     transpose: false
     truncate_text: true
-    hide_totals: false
-    hide_row_totals: false
     size_to_fit: true
+    series_cell_visualizations:
+      history.count:
+        is_active: true
+        palette:
+          palette_id: d8b60d3e-e77b-41eb-df9e-47c0ac52cf29
+          collection_id: dv-palette
+          custom_colors:
+          - "#FFFFFF"
+          - "#b23c68"
+        value_display: false
     table_theme: white
     enable_conditional_formatting: false
     header_text_alignment: left
@@ -311,33 +298,26 @@
     rows_font_size: '12'
     conditional_formatting_include_totals: false
     conditional_formatting_include_nulls: false
-    show_sql_query_menu_options: false
-    show_totals: true
-    show_row_totals: true
+    hide_totals: false
+    hide_row_totals: false
     defaults_version: 1
-    column_order: ["$$$_row_numbers_$$$", history.message, history.created_time, history.id,
-      query.id, query.link]
     show_null_points: true
+    up_color: false
+    down_color: false
+    total_color: false
     listen:
       Completed Date: history.completed_date
-      Is Admin (Yes / No): user_facts.is_admin
-      Is Developer (Yes / No): user_facts.is_developer
-      Is Embed (Yes / No): user_facts.is_embed
-      Is Looker Employee (Yes / No): user_facts.is_looker_employee
-      Is Disabled (Yes / No): user.is_disabled
-    row: 18
+      User ID: user_facts.user_id
+    row: 20
     col: 0
     width: 24
-    height: 3
+    height: 4
   - title: Dashboards Run Count
     name: Dashboards Run Count
     model: system__activity
     explore: history
     type: single_value
     fields: [history.dashboard_run_count]
-    filters:
-      history.result_source: query
-      query.model: '"pa_general"'
     limit: 500
     query_timezone: user_timezone
     custom_color_enabled: true
@@ -381,11 +361,9 @@
     series_types: {}
     listen:
       Completed Date: history.completed_date
-      Is Admin (Yes / No): user_facts.is_admin
-      Is Developer (Yes / No): user_facts.is_developer
-      Is Embed (Yes / No): user_facts.is_embed
-      Is Looker Employee (Yes / No): user_facts.is_looker_employee
-      Is Disabled (Yes / No): user.is_disabled
+      LookML Dashboard: history.real_dash_id
+      User ID: user_facts.user_id
+      Query Status: history.status
     row: 0
     col: 18
     width: 6
@@ -396,8 +374,9 @@
     explore: user
     type: single_value
     fields: [user.count]
+    filters:
+      user.is_disabled: 'No'
     limit: 500
-    filter_expression: "(${user_facts.is_explorer} OR ${user_facts.is_content_saver})"
     query_timezone: user_timezone
     custom_color_enabled: true
     show_single_value_title: true
@@ -451,28 +430,27 @@
     defaults_version: 1
     listen:
       Completed Date: history.completed_date
-      Is Admin (Yes / No): user_facts.is_admin
-      Is Developer (Yes / No): user_facts.is_developer
-      Is Embed (Yes / No): user_facts.is_embed
-      Is Looker Employee (Yes / No): user_facts.is_looker_employee
-      Is Disabled (Yes / No): user.is_disabled
+      LookML Dashboard: history.real_dash_id
+      User ID: user_facts.user_id
+      Query Status: history.status
     row: 0
     col: 0
     width: 6
     height: 3
-  - title: Users and Run Time
-    name: Users and Run Time
+  - title: Users and Average Run Time
+    name: Users and Average Run Time
     model: system__activity
     explore: user
     type: looker_line
     fields: [user.count, history.completed_date, history.average_runtime]
     fill_fields: [history.completed_date]
+    filters:
+      user.is_disabled: 'No'
     sorts: [history.completed_date desc]
     limit: 500
-    filter_expression: "(${user_facts.is_explorer} OR ${user_facts.is_content_saver})"
     query_timezone: user_timezone
-    x_axis_gridlines: false
-    y_axis_gridlines: true
+    x_axis_gridlines: true
+    y_axis_gridlines: false
     show_view_names: false
     show_y_axis_labels: true
     show_y_axis_ticks: true
@@ -495,18 +473,21 @@
     y_axis_combined: true
     show_null_points: true
     interpolation: monotone
-    y_axes: [{label: '', orientation: left, series: [{axisId: user.count, id: user.count,
-            name: User}], showLabels: true, showValues: true, unpinAxis: false, tickDensity: default,
-        tickDensityCustom: 5, type: linear}, {label: !!null '', orientation: right,
-        series: [{axisId: history.average_runtime, id: history.average_runtime, name: Average
-              Runtime in Seconds}], showLabels: true, showValues: true, unpinAxis: false,
-        tickDensity: default, tickDensityCustom: 5, type: linear}]
+    y_axes: [{label: !!null '', orientation: left, series: [{axisId: history.average_runtime,
+            id: history.average_runtime, name: Average Runtime in Seconds}], showLabels: true,
+        showValues: true, unpinAxis: false, tickDensity: default, tickDensityCustom: 5,
+        type: linear}, {label: !!null '', orientation: right, series: [{axisId: user.count,
+            id: user.count, name: Users Count}], showLabels: true, showValues: false,
+        unpinAxis: false, tickDensity: default, tickDensityCustom: 5, type: linear}]
     series_types:
       history.average_runtime: area
     series_colors:
-      user.count: "#079C98"
-      history.average_runtime: "#B2B4B3"
-    series_point_styles: {}
+      user.count: "#263c85"
+      history.average_runtime: "#00B2A9"
+    series_labels:
+      user.count: Users Count
+    series_point_styles:
+      user.count: auto
     custom_color_enabled: true
     show_single_value_title: true
     show_comparison: false
@@ -523,11 +504,9 @@
     defaults_version: 1
     listen:
       Completed Date: history.completed_date
-      Is Admin (Yes / No): user_facts.is_admin
-      Is Developer (Yes / No): user_facts.is_developer
-      Is Embed (Yes / No): user_facts.is_embed
-      Is Looker Employee (Yes / No): user_facts.is_looker_employee
-      Is Disabled (Yes / No): user.is_disabled
+      LookML Dashboard: history.real_dash_id
+      User ID: user_facts.user_id
+      Query Status: history.status
     row: 0
     col: 6
     width: 12
@@ -538,9 +517,6 @@
     explore: history
     type: single_value
     fields: [history.dashboard_run_count, user_facts.count, days_in_period]
-    filters:
-      history.result_source: query
-      query.model: '"pa_general"'
     limit: 500
     dynamic_fields: [{category: table_calculation, expression: "${history.dashboard_run_count}/(${user_facts.count}*${days_in_period})",
         label: Dash per User per Day, value_format: !!null '', value_format_name: decimal_0,
@@ -590,11 +566,9 @@
     series_types: {}
     listen:
       Completed Date: history.completed_date
-      Is Admin (Yes / No): user_facts.is_admin
-      Is Developer (Yes / No): user_facts.is_developer
-      Is Embed (Yes / No): user_facts.is_embed
-      Is Looker Employee (Yes / No): user_facts.is_looker_employee
-      Is Disabled (Yes / No): user.is_disabled
+      LookML Dashboard: history.real_dash_id
+      User ID: user_facts.user_id
+      Query Status: history.status
     row: 3
     col: 18
     width: 6
@@ -605,8 +579,9 @@
     explore: user
     type: single_value
     fields: [history.average_runtime]
+    filters:
+      user.is_disabled: 'No'
     limit: 500
-    filter_expression: "(${user_facts.is_explorer} OR ${user_facts.is_content_saver})"
     query_timezone: user_timezone
     custom_color_enabled: true
     show_single_value_title: true
@@ -625,11 +600,9 @@
     defaults_version: 1
     listen:
       Completed Date: history.completed_date
-      Is Admin (Yes / No): user_facts.is_admin
-      Is Developer (Yes / No): user_facts.is_developer
-      Is Embed (Yes / No): user_facts.is_embed
-      Is Looker Employee (Yes / No): user_facts.is_looker_employee
-      Is Disabled (Yes / No): user.is_disabled
+      LookML Dashboard: history.real_dash_id
+      User ID: user_facts.user_id
+      Query Status: history.status
     row: 3
     col: 0
     width: 6
@@ -648,7 +621,7 @@
     sorts: [event.created_time desc]
     limit: 500
     query_timezone: America/New_York
-    show_view_names: false
+    show_view_names: true
     show_row_numbers: true
     transpose: false
     truncate_text: true
@@ -659,19 +632,18 @@
     limit_displayed_rows: false
     enable_conditional_formatting: false
     header_text_alignment: left
-    header_font_size: 12
-    rows_font_size: 12
+    header_font_size: '12'
+    rows_font_size: '12'
     conditional_formatting_include_totals: false
     conditional_formatting_include_nulls: false
+    show_sql_query_menu_options: false
+    show_totals: true
+    show_row_totals: true
     defaults_version: 1
     listen:
       Completed Date: event.created_date
-      Is Admin (Yes / No): event.is_admin
-      Is Developer (Yes / No): user_facts.is_developer
-      Is Embed (Yes / No): user_facts.is_embed
-      Is Looker Employee (Yes / No): event.is_looker_employee
-      Is Disabled (Yes / No): user.is_disabled
-    row: 25
+      User ID: user_facts.user_id
+    row: 28
     col: 0
     width: 24
     height: 5
@@ -680,13 +652,13 @@
     model: system__activity
     explore: scheduled_plan
     type: looker_grid
-    fields: [scheduled_job.id, user.id, user.name, user.edit_link, scheduled_job.created_time,
-      scheduled_job.finalized_time, scheduled_job.count]
+    fields: [scheduled_job.id, scheduled_job.content_link, user.id, scheduled_job.created_time,
+      scheduled_job.finalized_time]
     filters:
       scheduled_plan.send_all_results: 'Yes'
     sorts: [scheduled_job.created_time desc]
     limit: 500
-    show_view_names: false
+    show_view_names: true
     show_row_numbers: true
     transpose: false
     truncate_text: true
@@ -697,80 +669,104 @@
     limit_displayed_rows: false
     enable_conditional_formatting: false
     header_text_alignment: left
-    header_font_size: 12
-    rows_font_size: 12
+    header_font_size: '12'
+    rows_font_size: '12'
     conditional_formatting_include_totals: false
     conditional_formatting_include_nulls: false
+    show_sql_query_menu_options: false
+    show_totals: true
+    show_row_totals: true
+    series_cell_visualizations:
+      scheduled_job.count:
+        is_active: true
     defaults_version: 1
     listen:
       Completed Date: scheduled_job.created_date
-      Is Admin (Yes / No): user_facts.is_admin
-      Is Developer (Yes / No): user_facts.is_developer
-      Is Embed (Yes / No): user_facts.is_embed
-      Is Looker Employee (Yes / No): user_facts.is_looker_employee
-      Is Disabled (Yes / No): user.is_disabled
-    row: 21
+      User ID: user_facts.user_id
+    row: 24
     col: 0
     width: 24
     height: 4
+  - name: ALL CONTENT
+    type: text
+    title_text: ALL CONTENT
+    subtitle_text: Personal content interactions are included and Query Status filter
+      is not applied
+    body_text: ''
+    row: 13
+    col: 0
+    width: 24
+    height: 2
   filters:
   - name: Completed Date
     title: Completed Date
     type: date_filter
-    default_value: 5 days
+    default_value: 7 day ago for 7 day
     allow_multiple_values: true
     required: true
     ui_config:
       type: advanced
+      display: inline
+      options: []
+  - name: LookML Dashboard
+    title: LookML Dashboard
+    type: field_filter
+    default_value: '"pa_general::blocking","pa_general::blocking_disclosure","pa_general::monitoring","pa_general::monitoring_disclosure","pa_general::monitoring_spotx","pa_general::monitoring_spotx_disclosure","pa_general::network_wide_viewability","pa_general::summary_groupm"'
+    allow_multiple_values: true
+    required: false
+    ui_config:
+      type: checkboxes
       display: popover
-      options: []
-  - name: Is Admin (Yes / No)
-    title: Is Admin (Yes / No)
-    type: string_filter
-    default_value: 'No'
-    allow_multiple_values: true
-    required: false
-    ui_config:
-      type: button_toggles
-      display: inline
-      options: []
-  - name: Is Developer (Yes / No)
-    title: Is Developer (Yes / No)
-    type: string_filter
-    default_value: 'No'
-    allow_multiple_values: true
-    required: false
-    ui_config:
-      type: button_toggles
-      display: inline
-      options: []
-  - name: Is Embed (Yes / No)
-    title: Is Embed (Yes / No)
+      options:
+      - pa_general::blocking
+      - pa_general::blocking_disclosure
+      - pa_general::monitoring
+      - pa_general::monitoring_disclosure
+      - pa_general::monitoring_spotx
+      - pa_general::monitoring_spotx_disclosure
+      - pa_general::network_wide_viewability
+      - pa_general::summary_groupm
+    model: system__activity
+    explore: history
+    listens_to_filters: [User ID]
+    field: history.real_dash_id
+  - name: Is Embed User (Yes / No)
+    title: Is Embed User (Yes / No)
     type: string_filter
     default_value: 'Yes'
     allow_multiple_values: true
     required: false
     ui_config:
-      type: button_toggles
+      type: button_group
       display: inline
       options: []
-  - name: Is Looker Employee (Yes / No)
-    title: Is Looker Employee (Yes / No)
-    type: string_filter
-    default_value: 'No'
+  - name: User ID
+    title: User ID
+    type: field_filter
+    default_value: ''
     allow_multiple_values: true
     required: false
     ui_config:
-      type: button_toggles
-      display: inline
-      options: []
-  - name: Is Disabled (Yes / No)
-    title: Is Disabled (Yes / No)
-    type: string_filter
-    default_value: 'No'
+      type: advanced
+      display: popover
+      options:
+        min: 0
+        max: 1000
+    model: system__activity
+    explore: user
+    listens_to_filters: []
+    field: user_facts.user_id
+  - name: Query Status
+    title: Query Status
+    type: field_filter
+    default_value: complete
     allow_multiple_values: true
     required: false
     ui_config:
-      type: button_toggles
-      display: inline
+      type: checkboxes
+      display: popover
       options: []
+    model: system__activity
+    explore: history
+    listens_to_filters: []
+    field: history.status

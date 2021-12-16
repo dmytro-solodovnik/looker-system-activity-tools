@@ -1,5 +1,5 @@
-- dashboard: end_user_behaviour_1
-  title: End User Behaviour 1
+- dashboard: end_user_behaviour
+  title: End User Behaviour
   layout: newspaper
   preferred_viewer: dashboards-next
   query_timezone: user_timezone
@@ -47,12 +47,11 @@
     hidden_fields: []
     listen:
       Completed Date: history.completed_date
+      Is Admin (Yes / No): user_facts.is_admin
+      Is Developer (Yes / No): user_facts.is_developer
       Is Embed (Yes / No): user_facts.is_embed
       Is Looker Employee (Yes / No): user_facts.is_looker_employee
       Is Disabled (Yes / No): user.is_disabled
-      Is Admin (Yes / No): user_facts.is_admin
-      Is Developer (Yes / No): user_facts.is_developer
-      External ID: user_facts.external_id
     row: 6
     col: 16
     width: 8
@@ -132,12 +131,11 @@
     hidden_fields:
     listen:
       Completed Date: history.completed_date
+      Is Admin (Yes / No): user_facts.is_admin
+      Is Developer (Yes / No): user_facts.is_developer
       Is Embed (Yes / No): user_facts.is_embed
       Is Looker Employee (Yes / No): user_facts.is_looker_employee
       Is Disabled (Yes / No): user.is_disabled
-      Is Admin (Yes / No): user_facts.is_admin
-      Is Developer (Yes / No): user_facts.is_developer
-      External ID: user_facts.external_id
     row: 6
     col: 0
     width: 8
@@ -189,12 +187,11 @@
     hidden_points_if_no: []
     listen:
       Completed Date: history.completed_date
+      Is Admin (Yes / No): user_facts.is_admin
+      Is Developer (Yes / No): user_facts.is_developer
       Is Embed (Yes / No): user_facts.is_embed
       Is Looker Employee (Yes / No): user_facts.is_looker_employee
       Is Disabled (Yes / No): user.is_disabled
-      Is Admin (Yes / No): user_facts.is_admin
-      Is Developer (Yes / No): user_facts.is_developer
-      External ID: user_facts.external_id
     row: 13
     col: 0
     width: 24
@@ -243,16 +240,95 @@
     hidden_fields: []
     listen:
       Completed Date: history.completed_date
+      Is Admin (Yes / No): user_facts.is_admin
+      Is Developer (Yes / No): user_facts.is_developer
       Is Embed (Yes / No): user_facts.is_embed
       Is Looker Employee (Yes / No): user_facts.is_looker_employee
       Is Disabled (Yes / No): user.is_disabled
-      Is Admin (Yes / No): user_facts.is_admin
-      Is Developer (Yes / No): user_facts.is_developer
-      External ID: user_facts.external_id
     row: 6
     col: 8
     width: 8
     height: 7
+  - title: Queries - Error Messages
+    name: Queries - Error Messages
+    model: system__activity
+    explore: history
+    type: looker_bar
+    fields: [history.count, error_message]
+    filters:
+      history.message: "%SQL Syntax Error%"
+    sorts: [history.count desc]
+    limit: 500
+    dynamic_fields: [{category: dimension, expression: 'substring(${history.message},position(${history.message},"invalid"),100)',
+        label: Error Message, value_format: !!null '', value_format_name: '', dimension: error_message,
+        _kind_hint: dimension, _type_hint: string}]
+    query_timezone: user_timezone
+    x_axis_gridlines: false
+    y_axis_gridlines: false
+    show_view_names: true
+    show_y_axis_labels: true
+    show_y_axis_ticks: true
+    y_axis_tick_density: default
+    y_axis_tick_density_custom: 5
+    show_x_axis_label: true
+    show_x_axis_ticks: true
+    y_axis_scale_mode: linear
+    x_axis_reversed: false
+    y_axis_reversed: false
+    plot_size_by_field: false
+    trellis: ''
+    stacking: ''
+    limit_displayed_rows: false
+    legend_position: center
+    point_style: none
+    show_value_labels: true
+    label_density: 25
+    x_axis_scale: auto
+    y_axis_combined: true
+    ordering: none
+    show_null_labels: false
+    show_totals_labels: false
+    show_silhouette: false
+    totals_color: "#808080"
+    y_axes: [{label: '', orientation: bottom, series: [{axisId: history.count, id: history.count,
+            name: History Count}], showLabels: false, showValues: false, unpinAxis: false,
+        tickDensity: default, tickDensityCustom: 5, type: linear}]
+    limit_displayed_rows_values:
+      show_hide: hide
+      first_last: first
+      num_rows: 0
+    series_types: {}
+    show_row_numbers: true
+    transpose: false
+    truncate_text: true
+    hide_totals: false
+    hide_row_totals: false
+    size_to_fit: true
+    table_theme: white
+    enable_conditional_formatting: false
+    header_text_alignment: left
+    header_font_size: '12'
+    rows_font_size: '12'
+    conditional_formatting_include_totals: false
+    conditional_formatting_include_nulls: false
+    show_sql_query_menu_options: false
+    show_totals: true
+    show_row_totals: true
+    defaults_version: 1
+    column_order: ["$$$_row_numbers_$$$", history.message, history.created_time, history.id,
+      query.id, query.link]
+    show_null_points: true
+    listen:
+      Completed Date: history.completed_date
+      Is Admin (Yes / No): user_facts.is_admin
+      Is Developer (Yes / No): user_facts.is_developer
+      Is Embed (Yes / No): user_facts.is_embed
+      Is Looker Employee (Yes / No): user_facts.is_looker_employee
+      Is Disabled (Yes / No): user.is_disabled
+    row: 18
+    col: 0
+    width: 24
+    height: 3
   - title: Dashboards Run Count
     name: Dashboards Run Count
     model: system__activity
@@ -305,12 +381,11 @@
     series_types: {}
     listen:
       Completed Date: history.completed_date
+      Is Admin (Yes / No): user_facts.is_admin
+      Is Developer (Yes / No): user_facts.is_developer
       Is Embed (Yes / No): user_facts.is_embed
       Is Looker Employee (Yes / No): user_facts.is_looker_employee
       Is Disabled (Yes / No): user.is_disabled
-      Is Admin (Yes / No): user_facts.is_admin
-      Is Developer (Yes / No): user_facts.is_developer
-      External ID: user_facts.external_id
     row: 0
     col: 18
     width: 6
@@ -376,12 +451,11 @@
     defaults_version: 1
     listen:
       Completed Date: history.completed_date
+      Is Admin (Yes / No): user_facts.is_admin
+      Is Developer (Yes / No): user_facts.is_developer
       Is Embed (Yes / No): user_facts.is_embed
       Is Looker Employee (Yes / No): user_facts.is_looker_employee
       Is Disabled (Yes / No): user.is_disabled
-      Is Admin (Yes / No): user_facts.is_admin
-      Is Developer (Yes / No): user_facts.is_developer
-      External ID: user_facts.external_id
     row: 0
     col: 0
     width: 6
@@ -449,12 +523,11 @@
     defaults_version: 1
     listen:
       Completed Date: history.completed_date
+      Is Admin (Yes / No): user_facts.is_admin
+      Is Developer (Yes / No): user_facts.is_developer
       Is Embed (Yes / No): user_facts.is_embed
       Is Looker Employee (Yes / No): user_facts.is_looker_employee
       Is Disabled (Yes / No): user.is_disabled
-      Is Admin (Yes / No): user_facts.is_admin
-      Is Developer (Yes / No): user_facts.is_developer
-      External ID: user_facts.external_id
     row: 0
     col: 6
     width: 12
@@ -517,12 +590,11 @@
     series_types: {}
     listen:
       Completed Date: history.completed_date
+      Is Admin (Yes / No): user_facts.is_admin
+      Is Developer (Yes / No): user_facts.is_developer
       Is Embed (Yes / No): user_facts.is_embed
       Is Looker Employee (Yes / No): user_facts.is_looker_employee
       Is Disabled (Yes / No): user.is_disabled
-      Is Admin (Yes / No): user_facts.is_admin
-      Is Developer (Yes / No): user_facts.is_developer
-      External ID: user_facts.external_id
     row: 3
     col: 18
     width: 6
@@ -553,12 +625,11 @@
     defaults_version: 1
     listen:
       Completed Date: history.completed_date
+      Is Admin (Yes / No): user_facts.is_admin
+      Is Developer (Yes / No): user_facts.is_developer
       Is Embed (Yes / No): user_facts.is_embed
       Is Looker Employee (Yes / No): user_facts.is_looker_employee
       Is Disabled (Yes / No): user.is_disabled
-      Is Admin (Yes / No): user_facts.is_admin
-      Is Developer (Yes / No): user_facts.is_developer
-      External ID: user_facts.external_id
     row: 3
     col: 0
     width: 6
@@ -595,11 +666,12 @@
     defaults_version: 1
     listen:
       Completed Date: event.created_date
-      Is Embed (Yes / No): user_facts.is_embed
-      Is Disabled (Yes / No): user.is_disabled
+      Is Admin (Yes / No): event.is_admin
       Is Developer (Yes / No): user_facts.is_developer
-      External ID: user_facts.external_id
-    row: 26
+      Is Embed (Yes / No): user_facts.is_embed
+      Is Looker Employee (Yes / No): event.is_looker_employee
+      Is Disabled (Yes / No): user.is_disabled
+    row: 25
     col: 0
     width: 24
     height: 5
@@ -632,554 +704,12 @@
     defaults_version: 1
     listen:
       Completed Date: scheduled_job.created_date
+      Is Admin (Yes / No): user_facts.is_admin
+      Is Developer (Yes / No): user_facts.is_developer
       Is Embed (Yes / No): user_facts.is_embed
       Is Looker Employee (Yes / No): user_facts.is_looker_employee
       Is Disabled (Yes / No): user.is_disabled
-      Is Admin (Yes / No): user_facts.is_admin
-      Is Developer (Yes / No): user_facts.is_developer
-      External ID: user_facts.external_id
-    row: 22
-    col: 0
-    width: 24
-    height: 4
-  - title: Queries - Error Messages
-    name: Queries - Error Messages
-    model: system__activity
-    explore: history
-    type: looker_grid
-    fields: [history.id, history.completed_date, user_facts.external_id, error_message,
-      history.source, user.id, history.real_dash_id]
-    filters:
-      history.message: "%error%"
-      history.completed_date: 10 days
-    sorts: [history.completed_date desc]
-    limit: 500
-    dynamic_fields: [{category: dimension, expression: 'substring(${history.message},position(${history.message},"invalid"),100)',
-        label: Error Message, value_format: !!null '', value_format_name: '', dimension: error_message,
-        _kind_hint: dimension, _type_hint: string}]
-    query_timezone: user_timezone
-    show_view_names: true
-    show_row_numbers: true
-    transpose: false
-    truncate_text: true
-    hide_totals: false
-    hide_row_totals: false
-    size_to_fit: true
-    table_theme: white
-    limit_displayed_rows: false
-    enable_conditional_formatting: false
-    header_text_alignment: left
-    header_font_size: '12'
-    rows_font_size: '12'
-    conditional_formatting_include_totals: false
-    conditional_formatting_include_nulls: false
-    x_axis_gridlines: false
-    y_axis_gridlines: false
-    show_y_axis_labels: true
-    show_y_axis_ticks: true
-    y_axis_tick_density: default
-    y_axis_tick_density_custom: 5
-    show_x_axis_label: true
-    show_x_axis_ticks: true
-    y_axis_scale_mode: linear
-    x_axis_reversed: false
-    y_axis_reversed: false
-    plot_size_by_field: false
-    trellis: ''
-    stacking: ''
-    legend_position: center
-    point_style: none
-    show_value_labels: true
-    label_density: 25
-    x_axis_scale: auto
-    y_axis_combined: true
-    ordering: none
-    show_null_labels: false
-    show_totals_labels: false
-    show_silhouette: false
-    totals_color: "#808080"
-    y_axes: [{label: '', orientation: bottom, series: [{axisId: history.count, id: history.count,
-            name: History Count}], showLabels: false, showValues: false, unpinAxis: false,
-        tickDensity: default, tickDensityCustom: 5, type: linear}]
-    limit_displayed_rows_values:
-      show_hide: hide
-      first_last: first
-      num_rows: 0
-    series_types: {}
-    show_sql_query_menu_options: false
-    show_totals: true
-    show_row_totals: true
-    defaults_version: 1
-    column_order: ["$$$_row_numbers_$$$", history.message, history.created_time, history.id,
-      query.id, query.link]
-    show_null_points: true
-    query_fields:
-      measures: []
-      dimensions:
-      - align: right
-        can_filter: true
-        category: dimension
-        default_filter_value:
-        description: The link to this query on the Queries page. (Requires see_queries
-          permission.)
-        enumerations:
-        field_group_label:
-        fill_style:
-        fiscal_month_offset: 0
-        has_allowed_values: false
-        hidden: false
-        is_filter: false
-        is_numeric: true
-        label: History ID
-        label_from_parameter:
-        label_short: ID
-        map_layer:
-        name: history.id
-        strict_value_format: false
-        requires_refresh_on_sort: false
-        sortable: true
-        suggestions:
-        tags: []
-        type: number
-        user_attribute_filter_types:
-        - number
-        - advanced_filter_number
-        value_format:
-        view: history
-        view_label: History
-        dynamic: false
-        week_start_day: monday
-        dimension_group:
-        error:
-        field_group_variant: ID
-        measure: false
-        parameter: false
-        primary_key: true
-        project_name: system__activity
-        scope: history
-        suggest_dimension: history.id
-        suggest_explore: history
-        suggestable: false
-        is_fiscal: false
-        is_timeframe: false
-        can_time_filter: false
-        time_interval:
-        lookml_link:
-        permanent:
-        source_file: history.view.lkml
-        source_file_path: system__activity/history.view.lkml
-        sql: history.id
-        sql_case:
-        filters:
-      - align: left
-        can_filter: true
-        category: dimension
-        default_filter_value:
-        description: When an event in 'History' was completed. Each event is linked
-          to a query in Looker.
-        enumerations:
-        field_group_label: Completed Date
-        fill_style: range
-        fiscal_month_offset: 0
-        has_allowed_values: false
-        hidden: false
-        is_filter: false
-        is_numeric: false
-        label: History Completed Date
-        label_from_parameter:
-        label_short: Completed Date
-        map_layer:
-        name: history.completed_date
-        strict_value_format: false
-        requires_refresh_on_sort: false
-        sortable: true
-        suggestions:
-        tags: []
-        type: date_date
-        user_attribute_filter_types:
-        - datetime
-        - advanced_filter_datetime
-        value_format:
-        view: history
-        view_label: History
-        dynamic: false
-        week_start_day: monday
-        dimension_group: history.completed
-        error:
-        field_group_variant: Date
-        measure: false
-        parameter: false
-        primary_key: false
-        project_name: system__activity
-        scope: history
-        suggest_dimension: history.completed_date
-        suggest_explore: history
-        suggestable: false
-        is_fiscal: false
-        is_timeframe: true
-        can_time_filter: false
-        time_interval:
-          name: day
-          count: 1
-        lookml_link:
-        permanent:
-        source_file: history.view.lkml
-        source_file_path: system__activity/history.view.lkml
-        sql: |-
-          {% if _dialect._name == 'bigquery_standard_sql' %}
-                  ${TABLE}.COMPLETED_AT_TIMESTAMP
-                {% else %}
-                  ${TABLE}.COMPLETED_AT
-                {% endif %}
-        sql_case:
-        filters:
-        sorted:
-          desc: true
-          sort_index: 0
-      - align: left
-        can_filter: true
-        category: dimension
-        default_filter_value:
-        description:
-        enumerations:
-        field_group_label:
-        fill_style:
-        fiscal_month_offset: 0
-        has_allowed_values: false
-        hidden: false
-        is_filter: false
-        is_numeric: false
-        label: Error Message
-        label_from_parameter:
-        label_short: Error Message
-        map_layer:
-        name: error_message
-        strict_value_format: false
-        requires_refresh_on_sort: false
-        sortable: true
-        suggestions:
-        tags: []
-        type: string
-        user_attribute_filter_types:
-        - string
-        - advanced_filter_string
-        value_format:
-        view: history
-        view_label: ''
-        dynamic: true
-        week_start_day: monday
-        dimension_group:
-        error:
-        field_group_variant: Error Message
-        measure: false
-        parameter: false
-        primary_key: false
-        project_name: system__activity
-        scope: history
-        suggest_dimension: error_message
-        suggest_explore: history
-        suggestable: true
-        is_fiscal: false
-        is_timeframe: false
-        can_time_filter: false
-        time_interval:
-        lookml_link:
-        permanent:
-        source_file: history.view.lkml
-        source_file_path: system__activity/history.view.lkml
-        sql: error_message
-        sql_case:
-        filters:
-      - align: left
-        can_filter: true
-        category: dimension
-        default_filter_value:
-        description: The source of a query, such as a Look, explore, scheduled_task,
-          alert, dashboard etc.
-        enumerations:
-        field_group_label: Source
-        fill_style:
-        fiscal_month_offset: 0
-        has_allowed_values: false
-        hidden: false
-        is_filter: false
-        is_numeric: false
-        label: History Source
-        label_from_parameter:
-        label_short: Source
-        map_layer:
-        name: history.source
-        strict_value_format: false
-        requires_refresh_on_sort: false
-        sortable: true
-        suggestions:
-        tags: []
-        type: string
-        user_attribute_filter_types:
-        - string
-        - advanced_filter_string
-        value_format:
-        view: history
-        view_label: History
-        dynamic: false
-        week_start_day: monday
-        dimension_group:
-        error:
-        field_group_variant: Source
-        measure: false
-        parameter: false
-        primary_key: false
-        project_name: system__activity
-        scope: history
-        suggest_dimension: history.source
-        suggest_explore: history
-        suggestable: true
-        is_fiscal: false
-        is_timeframe: false
-        can_time_filter: false
-        time_interval:
-        lookml_link:
-        permanent:
-        source_file: history.view.lkml
-        source_file_path: system__activity/history.view.lkml
-        sql: "${TABLE}.SOURCE "
-        sql_case:
-        filters:
-      - align: right
-        can_filter: true
-        category: dimension
-        default_filter_value:
-        description: The unique numeric identifier for a user. Unique primary key
-          of the `user` table.
-        enumerations:
-        field_group_label:
-        fill_style:
-        fiscal_month_offset: 0
-        has_allowed_values: false
-        hidden: false
-        is_filter: false
-        is_numeric: true
-        label: User ID
-        label_from_parameter:
-        label_short: ID
-        map_layer:
-        name: user.id
-        strict_value_format: false
-        requires_refresh_on_sort: false
-        sortable: true
-        suggestions:
-        tags: []
-        type: number
-        user_attribute_filter_types:
-        - number
-        - advanced_filter_number
-        value_format:
-        view: user
-        view_label: User
-        dynamic: false
-        week_start_day: monday
-        dimension_group:
-        error:
-        field_group_variant: ID
-        measure: false
-        parameter: false
-        primary_key: true
-        project_name: system__activity
-        scope: user
-        suggest_dimension: user.id
-        suggest_explore: history
-        suggestable: false
-        is_fiscal: false
-        is_timeframe: false
-        can_time_filter: false
-        time_interval:
-        lookml_link:
-        permanent:
-        source_file: user.view.lkml
-        source_file_path: system__activity/user.view.lkml
-        sql: user.id
-        sql_case:
-        filters:
-      - align: left
-        can_filter: true
-        category: dimension
-        default_filter_value:
-        description: The unique string identifier for either a user-defined or a LookML
-          dashboard
-        enumerations:
-        field_group_label:
-        fill_style:
-        fiscal_month_offset: 0
-        has_allowed_values: false
-        hidden: false
-        is_filter: false
-        is_numeric: false
-        label: History Dashboard ID (Inclusive)
-        label_from_parameter:
-        label_short: Dashboard ID (Inclusive)
-        map_layer:
-        name: history.real_dash_id
-        strict_value_format: false
-        requires_refresh_on_sort: false
-        sortable: true
-        suggestions:
-        tags: []
-        type: string
-        user_attribute_filter_types:
-        - string
-        - advanced_filter_string
-        value_format:
-        view: history
-        view_label: History
-        dynamic: false
-        week_start_day: monday
-        dimension_group:
-        error:
-        field_group_variant: Dashboard ID (Inclusive)
-        measure: false
-        parameter: false
-        primary_key: false
-        project_name: system__activity
-        scope: history
-        suggest_dimension: history.real_dash_id
-        suggest_explore: history
-        suggestable: true
-        is_fiscal: false
-        is_timeframe: false
-        can_time_filter: false
-        time_interval:
-        lookml_link:
-        permanent:
-        source_file: history.view.lkml
-        source_file_path: system__activity/history.view.lkml
-        sql: |-
-          {% if _dialect._name == 'hypersql' %}
-                  COALESCE(${dashboard_id}, CONVERT(${dashboard.id}, SQL_VARCHAR))
-                {% elsif _dialect._name == 'bigquery_standard_sql' %}
-                  COALESCE(${dashboard_id}, CAST(${dashboard.id} AS STRING))
-                {% else %}
-                  COALESCE(${dashboard_id}, CAST(${dashboard.id} AS CHAR(256)))
-                {% endif %}
-        sql_case:
-        filters:
-      - align: right
-        can_filter: true
-        category: dimension
-        default_filter_value:
-        description: The unique numeric identifier for a user-defined dashboard. Unique
-          primary key of the dashboard table.
-        enumerations:
-        field_group_label:
-        fill_style:
-        fiscal_month_offset: 0
-        has_allowed_values: false
-        hidden: false
-        is_filter: false
-        is_numeric: true
-        label: Dashboard ID (User-defined only)
-        label_from_parameter:
-        label_short: ID (User-defined only)
-        map_layer:
-        name: dashboard.id
-        strict_value_format: false
-        requires_refresh_on_sort: false
-        sortable: true
-        suggestions:
-        tags: []
-        type: number
-        user_attribute_filter_types:
-        - number
-        - advanced_filter_number
-        value_format:
-        view: dashboard
-        view_label: Dashboard
-        dynamic: false
-        week_start_day: monday
-        dimension_group:
-        error:
-        field_group_variant: ID (User-defined only)
-        measure: false
-        parameter: false
-        primary_key: true
-        project_name: system__activity
-        scope: dashboard
-        suggest_dimension: dashboard.id
-        suggest_explore: history
-        suggestable: false
-        is_fiscal: false
-        is_timeframe: false
-        can_time_filter: false
-        time_interval:
-        lookml_link:
-        permanent:
-        source_file: dashboard.view.lkml
-        source_file_path: system__activity/dashboard.view.lkml
-        sql: dashboard.id
-        sql_case:
-        filters:
-      - align: left
-        can_filter: true
-        category: dimension
-        default_filter_value:
-        description: The Explore that uses the query
-        enumerations:
-        field_group_label:
-        fill_style:
-        fiscal_month_offset: 0
-        has_allowed_values: false
-        hidden: false
-        is_filter: false
-        is_numeric: false
-        label: Source Query Explore
-        label_from_parameter:
-        label_short: Explore
-        map_layer:
-        name: source_query.view
-        strict_value_format: false
-        requires_refresh_on_sort: false
-        sortable: true
-        suggestions:
-        tags: []
-        type: string
-        user_attribute_filter_types:
-        - string
-        - advanced_filter_string
-        value_format:
-        view: source_query
-        view_label: Source Query
-        dynamic: false
-        week_start_day: monday
-        dimension_group:
-        error:
-        field_group_variant: Explore
-        measure: false
-        parameter: false
-        primary_key: false
-        project_name: system__activity
-        scope: source_query
-        suggest_dimension: source_query.view
-        suggest_explore: history
-        suggestable: true
-        is_fiscal: false
-        is_timeframe: false
-        can_time_filter: false
-        time_interval:
-        lookml_link:
-        permanent:
-        source_file: query.view.lkml
-        source_file_path: system__activity/query.view.lkml
-        sql: source_query.view
-        sql_case:
-        filters:
-      table_calculations: []
-      pivots: []
-    series_column_widths:
-      error_message: 651
-    listen:
-      Is Admin (Yes / No): user_facts.is_admin
-      Is Developer (Yes / No): user_facts.is_developer
-      External ID: user_facts.external_id
-    row: 18
+    row: 21
     col: 0
     width: 24
     height: 4
@@ -1201,8 +731,8 @@
     allow_multiple_values: true
     required: false
     ui_config:
-      type: tag_list
-      display: popover
+      type: button_toggles
+      display: inline
       options: []
   - name: Is Developer (Yes / No)
     title: Is Developer (Yes / No)
@@ -1211,8 +741,8 @@
     allow_multiple_values: true
     required: false
     ui_config:
-      type: tag_list
-      display: popover
+      type: button_toggles
+      display: inline
       options: []
   - name: Is Embed (Yes / No)
     title: Is Embed (Yes / No)
@@ -1221,8 +751,8 @@
     allow_multiple_values: true
     required: false
     ui_config:
-      type: tag_list
-      display: popover
+      type: button_toggles
+      display: inline
       options: []
   - name: Is Looker Employee (Yes / No)
     title: Is Looker Employee (Yes / No)
@@ -1231,8 +761,8 @@
     allow_multiple_values: true
     required: false
     ui_config:
-      type: tag_list
-      display: popover
+      type: button_toggles
+      display: inline
       options: []
   - name: Is Disabled (Yes / No)
     title: Is Disabled (Yes / No)
@@ -1241,16 +771,6 @@
     allow_multiple_values: true
     required: false
     ui_config:
-      type: tag_list
-      display: popover
-      options: []
-  - name: External ID
-    title: External ID
-    type: string_filter
-    default_value: ''
-    allow_multiple_values: true
-    required: false
-    ui_config:
-      type: tag_list
-      display: popover
+      type: button_toggles
+      display: inline
       options: []
