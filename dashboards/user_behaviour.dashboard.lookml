@@ -1,8 +1,8 @@
 - dashboard: end_user_behaviour
-  title: End User Behaviour (Legacy Version of the Dashboard to be able to use string filters for system_activity model)
+  title: End User Behaviour
   layout: newspaper
-  preferred_viewer: dashboards
-  description: 'Legacy Version of the Dashboard to be able to use string filters for system_activity model'
+  preferred_viewer: dashboards-next
+  description: ''
   query_timezone: user_timezone
   elements:
   - title: Heavy Queries
@@ -771,7 +771,7 @@
     allow_multiple_values: true
     required: false
     ui_config:
-      type: tag_list
+      type: advanced
       display: popover
       options: []
     model: system__activity
