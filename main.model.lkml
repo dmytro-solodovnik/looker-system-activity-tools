@@ -1,4 +1,4 @@
-connection: "account_usage"
+connection: "snowflake_audit"
 
 include: "/dashboards/*.dashboard"                # include all views in the views/ folder in this project
 # include: "/**/*.view.lkml"                 # include all views in this project
