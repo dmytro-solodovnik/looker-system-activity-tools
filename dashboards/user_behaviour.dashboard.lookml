@@ -767,7 +767,7 @@
   - name: Salesforce External ID
     title: Salesforce External ID
     type: field_filter
-    default_value: ''
+    default_value: "-0055d00000BQu1bAAD,-0055d00000BE4rgAAD"
     allow_multiple_values: true
     required: false
     ui_config:
