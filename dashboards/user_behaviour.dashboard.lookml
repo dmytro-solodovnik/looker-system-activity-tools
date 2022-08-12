@@ -735,21 +735,13 @@
   - name: LookML Dashboard
     title: LookML Dashboard
     type: field_filter
-    default_value: pa^_general%
+    default_value: pa^_general%,quality%
     allow_multiple_values: true
     required: false
     ui_config:
-      type: checkboxes
+      type: advanced
       display: popover
-      options:
-      - pa_general::blocking
-      - pa_general::blocking_disclosure
-      - pa_general::monitoring
-      - pa_general::monitoring_disclosure
-      - pa_general::monitoring_spotx
-      - pa_general::monitoring_spotx_disclosure
-      - pa_general::network_wide_viewability
-      - pa_general::summary_groupm
+      options: []
     model: system__activity
     explore: history
     listens_to_filters: [Looker User ID]

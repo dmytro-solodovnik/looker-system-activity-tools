@@ -337,23 +337,13 @@
   - name: LookML Dashboard
     title: LookML Dashboard
     type: string_filter
-    default_value: pa^_general%
+    default_value: pa^_general%,quality%
     allow_multiple_values: true
     required: false
     ui_config:
-      type: checkboxes
+      type: advanced
       display: popover
-      options:
-      - pa_general::blocking
-      - pa_general::blocking_disclosure
-      - pa_general::disclosure_monitoring
-      - pa_general::monitoring_disclosure
-      - pa_general::monitoring
-      - pa_general::spotx
-      - pa_general::monitoring_spotx
-      - pa_general::summary_groupm
-      - pa_general::monitoring_disclosure_v3
-      - pa_general::monitoring_spotx_disclosure
+      options: []
   - name: Slug
     title: Slug
     type: string_filter
