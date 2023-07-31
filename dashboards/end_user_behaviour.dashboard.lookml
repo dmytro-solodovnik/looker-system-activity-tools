@@ -2,8 +2,10 @@
   title: End User Behaviour
   layout: newspaper
   preferred_viewer: dashboards-next
-  description: ''
+  description: 'End User Behaviour'
+  refresh: 1 hour
   query_timezone: user_timezone
+  filters_bar_collapsed: true
   elements:
   - title: Heavy Queries
     name: Heavy Queries
