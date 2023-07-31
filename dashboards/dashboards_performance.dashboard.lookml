@@ -1,8 +1,11 @@
-- dashboard: dashboard_performance
-  title: Dashboard Performance
+- dashboard: dashboards_performance
+  title: Dashboards Performance
   layout: newspaper
   preferred_viewer: dashboards-next
+  description: 'Dashboards Performance'
+  refresh: 1 hour
   query_timezone: user_timezone
+  filters_bar_collapsed: true
   elements:
   - title: Cache vs Query
     name: Cache vs Query
@@ -336,7 +339,7 @@
         max: 23
   - name: LookML Dashboard
     title: LookML Dashboard
-    type: string_filter
+    type: field_filter
     default_value: pa^_general%,quality%
     allow_multiple_values: true
     required: false
@@ -344,16 +347,22 @@
       type: advanced
       display: popover
       options: []
+    model: system__activity
+    explore: history
+    field: history.real_dash_id
   - name: Slug
     title: Slug
-    type: string_filter
+    type: field_filter
     default_value: ''
     allow_multiple_values: true
     required: false
     ui_config:
       type: advanced
       display: popover
-      options: []
+    model: system__activity
+    explore: history
+    listens_to_filters: []
+    field: history.slug
   - name: Result Source
     title: Result Source
     type: string_filter
