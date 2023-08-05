@@ -1,0 +1,21 @@
+{
+  "label": "Looker tools for performance",
+  "category_label": "Models",
+  "branding": {
+    "_image_uri": "",
+    "tagline": "Know and Explore your Looker System Activity"
+  },
+
+    "constants": {
+        "CONNECTION_NAME": {
+            "label": "Connection name",
+            "value_constraint": "connection"
+        }
+    },
+    "models": [
+        {
+            "name": "main",
+            "connection_constant": "CONNECTION_NAME"
+        }
+    ]
+}
