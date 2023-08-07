@@ -2,7 +2,7 @@
   title: Performance - Avg Runtime vs Users
   layout: newspaper
   preferred_viewer: dashboards-next
-  description: ''
+  description: 'Helps to correlate number of users with queries average runtime'
   filters_bar_collapsed: true
   elements:
   - title: Performance - Avg Runtime vs Users

@@ -2,7 +2,8 @@
   title: Performance - Speed comparison for release
   layout: newspaper
   preferred_viewer: dashboards-next
-  description: ''
+  description: 'Helps to evaluate the release from query performance perspective'
+  filters_bar_collapsed: true
   elements:
   - title: Speed comparison for release
     name: Speed comparison for release
