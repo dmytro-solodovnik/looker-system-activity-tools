@@ -1,9 +1,9 @@
 {
-  "label": "Looker tools for performance",
+  "label": "Looker Accelerator",
   "category_label": "Models",
   "branding": {
-    "_image_uri": "",
-    "tagline": "Know and Explore your Looker System Activity"
+    "image_uri": "https://github.com/dmytro-solodovnik/military-lifespan-prediction/blob/main/pict/hero-sunflower-meanings.png?raw=true",
+    "tagline": "Know and Explore your Looker System Activity Data"
   },
 
     "constants": {
@@ -14,7 +14,7 @@
     },
     "models": [
         {
-            "name": "performance-tools",
+            "name": "looker_accelerator",
             "connection_constant": "CONNECTION_NAME"
         }
     ]
