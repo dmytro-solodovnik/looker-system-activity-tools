@@ -14,7 +14,7 @@
     },
     "models": [
         {
-            "name": "main",
+            "name": "performance-tools",
             "connection_constant": "CONNECTION_NAME"
         }
     ]
