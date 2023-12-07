@@ -1,8 +1,9 @@
-- dashboard: performance__avg_runtime_vs_users
-  title: Performance - Avg Runtime vs Users
+- dashboard: performance_avg_runtime_vs_users
+  title: "[Performance] Avg Runtime vs Users"
   layout: newspaper
   preferred_viewer: dashboards-next
-  description: 'Helps to correlate number of users with queries average runtime'
+  description: Helps to correlate number of users with queries average runtime
+  query_timezone: user_timezone
   filters_bar_collapsed: true
   elements:
   - title: Performance - Avg Runtime vs Users
@@ -12,7 +13,6 @@
     type: looker_line
     fields: [history.completed_date, history.average_runtime, user.count]
     fill_fields: [history.completed_date]
-    filters: {}
     sorts: [history.completed_date desc]
     limit: 5000
     column_limit: 50
@@ -58,17 +58,90 @@
     title_hidden: true
     listen:
       Result Source: history.result_source
-      Completed Date: history.completed_date
-      Dashboard ID (Inclusive): history.real_dash_id
       Status: history.status
-      Model: query.model
-      Name: user.name
       Is Disabled (Yes / No): user.is_disabled
-    row: 0
+      User Name: user.name
+      Looker Model: query.model
+      Date Range: history.completed_date
+      Dashboard: history.real_dash_id
+    row: 4
     col: 0
     width: 24
     height: 12
+  - name: ''
+    type: text
+    title_text: ''
+    subtitle_text: ''
+    body_text: '[{"type":"p","children":[{"text":"How to use:","bold":true}],"id":1701900476502},{"type":"ul","children":[{"type":"li","children":[{"type":"lic","children":[{"text":"This
+      dashboard is designed to showcase performance measures for "},{"text":"Queries
+      Average Runtime","color":"hsl(218, 67%, 43%)"},{"text":" vs "},{"text":"Number
+      of Users","color":"hsl(218, 67%, 43%)"}],"id":1680749533581}],"id":1680749551915},{"type":"li","children":[{"type":"lic","children":[{"text":"The
+      scope of this analysis is "},{"text":"complete queries (both database and cached)
+      and not disabled users","bold":true}],"id":1680749589024}],"id":1680749589023},{"type":"li","children":[{"type":"lic","children":[{"text":"Default
+      Date Range is "},{"text":"last 30 days","color":"hsl(218, 67%, 43%)"}],"id":1701900927616}],"id":1701900927616},{"type":"li","children":[{"type":"lic","children":[{"text":"Additional
+      filters are: Looker Model, Dashboard ID and User Name"}],"id":1701900801452}],"id":1701900801452},{"type":"li","children":[{"type":"lic","children":[{"text":"All
+      the filters can be modified according to needs."}],"id":1701900736200}],"id":1701900736200}],"id":1701900476502}]'
+    rich_content_json: '{"format":"slate"}'
+    row: 0
+    col: 0
+    width: 24
+    height: 4
   filters:
+  - name: Date Range
+    title: Date Range
+    type: field_filter
+    default_value: 30 day
+    allow_multiple_values: true
+    required: false
+    ui_config:
+      type: relative_timeframes
+      display: inline
+      options: []
+    model: system__activity
+    explore: history
+    listens_to_filters: []
+    field: history.completed_date
+  - name: Looker Model
+    title: Looker Model
+    type: field_filter
+    default_value: ''
+    allow_multiple_values: true
+    required: false
+    ui_config:
+      type: advanced
+      display: popover
+      options: []
+    model: system__activity
+    explore: history
+    listens_to_filters: []
+    field: query.model
+  - name: Dashboard
+    title: Dashboard
+    type: field_filter
+    default_value: ''
+    allow_multiple_values: true
+    required: false
+    ui_config:
+      type: advanced
+      display: popover
+      options: []
+    model: system__activity
+    explore: history
+    listens_to_filters: []
+    field: history.real_dash_id
+  - name: User Name
+    title: User Name
+    type: field_filter
+    default_value: ''
+    allow_multiple_values: true
+    required: false
+    ui_config:
+      type: advanced
+      display: popover
+    model: system__activity
+    explore: history
+    listens_to_filters: []
+    field: user.name
   - name: Status
     title: Status
     type: field_filter
@@ -82,19 +155,6 @@
     explore: history
     listens_to_filters: []
     field: history.status
-  - name: Completed Date
-    title: Completed Date
-    type: field_filter
-    default_value: 7 days ago for 7 days
-    allow_multiple_values: true
-    required: false
-    ui_config:
-      type: relative_timeframes
-      display: inline
-    model: system__activity
-    explore: history
-    listens_to_filters: []
-    field: history.completed_date
   - name: Result Source
     title: Result Source
     type: field_filter
@@ -108,45 +168,6 @@
     explore: history
     listens_to_filters: []
     field: history.result_source
-  - name: Model
-    title: Model
-    type: field_filter
-    default_value: ''
-    allow_multiple_values: true
-    required: false
-    ui_config:
-      type: advanced
-      display: popover
-    model: system__activity
-    explore: history
-    listens_to_filters: []
-    field: query.model
-  - name: Dashboard ID (Inclusive)
-    title: Dashboard ID (Inclusive)
-    type: field_filter
-    default_value: ''
-    allow_multiple_values: true
-    required: false
-    ui_config:
-      type: advanced
-      display: popover
-    model: system__activity
-    explore: history
-    listens_to_filters: []
-    field: history.real_dash_id
-  - name: Name
-    title: Name
-    type: field_filter
-    default_value: ''
-    allow_multiple_values: true
-    required: false
-    ui_config:
-      type: advanced
-      display: popover
-    model: system__activity
-    explore: history
-    listens_to_filters: []
-    field: user.name
   - name: Is Disabled (Yes / No)
     title: Is Disabled (Yes / No)
     type: field_filter
