@@ -1,8 +1,8 @@
-- dashboard: performance__speed_comparison_for_release
-  title: Performance - Speed comparison for release
+- dashboard: performance_speed_comparison_for_the_releasechangeissue
+  title: "[Performance] Speed comparison for the release/change/issue"
   layout: newspaper
   preferred_viewer: dashboards-next
-  description: 'Helps to evaluate the release from query performance perspective'
+  description: 'Helps to evaluate the release/change/issue impact from query performance perspective'
   filters_bar_collapsed: true
   elements:
   - title: Speed comparison for release
@@ -16,59 +16,138 @@
     filters:
       history.result_source: "-NULL"
       include_release_date_yesno: 'No'
-    sorts: [runtime_of_the_query, period desc, percent_change_for_current_bucket desc
-        2]
+    sorts: [runtime_of_the_query, period desc, history.real_dash_id desc]
     limit: 500
     column_limit: 50
-    dynamic_fields: [{category: table_calculation, expression: 'pivot_offset(${running_total_before},7)',
-        label: Total Before, value_format: !!null '', value_format_name: Default formatting,
-        _kind_hint: measure, table_calculation: total_before, _type_hint: number},
-      {category: table_calculation, expression: 'pivot_offset(${running_total_after},8)',
-        label: 'Total After ', value_format: !!null '', value_format_name: Default
-          formatting, _kind_hint: measure, table_calculation: total_after, _type_hint: number},
-      {category: table_calculation, expression: '(${history.count} / sum(pivot_row(if(substring(${period},1,6)="before",${history.count},0))))',
-        label: Percent of row before, value_format: !!null '', value_format_name: percent_0,
-        _kind_hint: measure, table_calculation: percent_of_row_before, _type_hint: number},
-      {category: table_calculation, expression: 'sum(pivot_offset_list(if(substring(${period},1,6)="before",${history.count},0),-1*pivot_column()+1,pivot_column()))
-          / sum(pivot_row(if(substring(${period},1,6)="before",${history.count},0)))',
-        label: Running Percent before, value_format: !!null '', value_format_name: percent_0,
-        _kind_hint: measure, table_calculation: running_percent_before, _type_hint: number},
-      {category: table_calculation, expression: '(${history.count} / sum(pivot_row(if(substring(${period},1,5)="after",${history.count},0))))',
-        label: Percent of row after, value_format: !!null '', value_format_name: percent_0,
-        _kind_hint: measure, table_calculation: percent_of_row_after, _type_hint: number},
-      {category: table_calculation, expression: 'sum(pivot_offset_list(if(substring(${period},1,5)="after",${history.count},0),-1*pivot_column()+1,pivot_column()))
-          / sum(pivot_row(if(substring(${period},1,5)="after",${history.count},0)))',
-        label: Running Percent after, value_format: !!null '', value_format_name: percent_0,
-        _kind_hint: measure, table_calculation: running_percent_after, _type_hint: number},
-      {category: table_calculation, expression: 'sum(pivot_offset_list(if(substring(${period},1,6)="before",${history.count},0),-1*pivot_column()+1,pivot_column()))',
-        label: Running total before, value_format: !!null '', value_format_name: decimal_0,
-        _kind_hint: measure, table_calculation: running_total_before, _type_hint: number},
-      {category: table_calculation, expression: 'sum(pivot_offset_list(if(substring(${period},1,5)="after",${history.count},0),-1*pivot_column()+1,pivot_column()))',
-        label: Running total after, value_format: !!null '', value_format_name: Default
-          formatting, _kind_hint: measure, table_calculation: running_total_after,
-        _type_hint: number}, {category: table_calculation, expression: "(${percent_of_row_after}\
-          \ - pivot_offset(${percent_of_row_before}, -1))*100", label: Percent change
-          for current bucket, value_format: 0.# pp, value_format_name: __custom, _kind_hint: measure,
-        table_calculation: percent_change_for_current_bucket, _type_hint: number},
-      {category: table_calculation, expression: "(${running_percent_after}-${running_percent_before})*100",
-        label: Percent running change, value_format: 0.# pp, value_format_name: __custom,
-        _kind_hint: measure, table_calculation: percent_running_change, _type_hint: number},
-      {category: dimension, expression: "case(\n  when(${history.runtime}<=10,\"below\
-          \ 10s\"),\n  when(${history.runtime}<=15,\"below 15s\"),\n  when(${history.runtime}<=30,\"\
-          below 30s\"),\n  when(if(is_null(${history.runtime}),1,0)=1,\" Totals\"\
-          ),\n  \"more 30s\")", label: Runtime of the query, value_format: !!null '',
-        value_format_name: !!null '', dimension: runtime_of_the_query, _kind_hint: dimension,
-        _type_hint: string}, {category: dimension, expression: "case(when(if(is_null(${history.runtime}),1,0)=1,\"\
-          \"),\n  when(${history.completed_date} < ${release_time}, concat(\"before\
-          \ \",\"[Release Date]\")),\n  when(${history.completed_date} > ${release_time},\
-          \ concat(\"after \",\"[Release Date]\")),\n  \"undefined\"\n)", label: Period,
-        value_format: !!null '', value_format_name: !!null '', dimension: period,
-        _kind_hint: dimension, _type_hint: string}, {category: dimension, expression: 'add_days(-14,now())',
-        label: Release Time, value_format: !!null '', value_format_name: !!null '',
-        dimension: release_time, _kind_hint: dimension, _type_hint: date}, {category: dimension,
-        expression: "${history.completed_date} = date(extract_years(${release_time}),extract_months(${release_time}),extract_days(${release_time}))",
-        label: Include Release Date (Yes/No), value_format: !!null '', value_format_name: !!null '',
-        dimension: include_release_date_yesno, _kind_hint: dimension, _type_hint: yesno}]
+    dynamic_fields:
+    - category: table_calculation
+      expression: if(is_null(pivot_offset(${running_total_before},7)) = yes, pivot_offset(${running_total_before},5),
+        pivot_offset(${running_total_before},7))
+      label: Total Before
+      value_format:
+      value_format_name: Default formatting
+      _kind_hint: measure
+      table_calculation: total_before
+      _type_hint: number
+    - category: table_calculation
+      expression: if(is_null(pivot_offset(${running_total_after},8)) = yes, pivot_offset(${running_total_after},4),
+        pivot_offset(${running_total_after},8))
+      label: 'Total After '
+      value_format:
+      value_format_name: Default formatting
+      _kind_hint: measure
+      table_calculation: total_after
+      _type_hint: number
+    - category: table_calculation
+      expression: (${history.count} / sum(pivot_row(if(substring(${period},1,6)="before",${history.count},0))))
+      label: Percent of row before
+      value_format:
+      value_format_name: percent_0
+      _kind_hint: measure
+      table_calculation: percent_of_row_before
+      _type_hint: number
+    - category: table_calculation
+      expression: sum(pivot_offset_list(if(substring(${period},1,6)="before",${history.count},0),-1*pivot_column()+1,pivot_column()))
+        / sum(pivot_row(if(substring(${period},1,6)="before",${history.count},0)))
+      label: Running Percent before
+      value_format:
+      value_format_name: percent_0
+      _kind_hint: measure
+      table_calculation: running_percent_before
+      _type_hint: number
+    - category: table_calculation
+      expression: (${history.count} / sum(pivot_row(if(substring(${period},1,5)="after",${history.count},0))))
+      label: Percent of row after
+      value_format:
+      value_format_name: percent_0
+      _kind_hint: measure
+      table_calculation: percent_of_row_after
+      _type_hint: number
+    - category: table_calculation
+      expression: sum(pivot_offset_list(if(substring(${period},1,5)="after",${history.count},0),-1*pivot_column()+1,pivot_column()))
+        / sum(pivot_row(if(substring(${period},1,5)="after",${history.count},0)))
+      label: Running Percent after
+      value_format:
+      value_format_name: percent_0
+      _kind_hint: measure
+      table_calculation: running_percent_after
+      _type_hint: number
+    - category: table_calculation
+      expression: sum(pivot_offset_list(if(substring(${period},1,6)="before",${history.count},0),-1*pivot_column()+1,pivot_column()))
+      label: Running total before
+      value_format:
+      value_format_name: decimal_0
+      _kind_hint: measure
+      table_calculation: running_total_before
+      _type_hint: number
+    - category: table_calculation
+      expression: sum(pivot_offset_list(if(substring(${period},1,5)="after",${history.count},0),-1*pivot_column()+1,pivot_column()))
+      label: Running total after
+      value_format:
+      value_format_name: Default formatting
+      _kind_hint: measure
+      table_calculation: running_total_after
+      _type_hint: number
+    - category: table_calculation
+      expression: "(${percent_of_row_after} - pivot_offset(${percent_of_row_before},\
+        \ -1))*100"
+      label: Percent change for current bucket
+      value_format: 0.# pp
+      value_format_name: __custom
+      _kind_hint: measure
+      table_calculation: percent_change_for_current_bucket
+      _type_hint: number
+    - category: table_calculation
+      expression: "(${running_percent_after}-${running_percent_before})*100"
+      label: Percent running change
+      value_format: 0.# pp
+      value_format_name: __custom
+      _kind_hint: measure
+      table_calculation: percent_running_change
+      _type_hint: number
+    - category: dimension
+      expression: |-
+        case(
+          when(${history.runtime}<=10,"below 10s"),
+          when(${history.runtime}<=15,"below 15s"),
+          when(${history.runtime}<=30,"below 30s"),
+          when(if(is_null(${history.runtime}),1,0)=1," Totals"),
+          "more 30s")
+      label: Runtime of the query
+      value_format:
+      value_format_name:
+      dimension: runtime_of_the_query
+      _kind_hint: dimension
+      _type_hint: string
+    - category: dimension
+      expression: |-
+        case(when(if(is_null(${history.runtime}),1,0)=1,""),
+          when(${history.completed_date} < ${release_time}, concat("before ","[Release Date]")),
+          when(${history.completed_date} > ${release_time}, concat("after ","[Release Date]")),
+          "undefined"
+        )
+      label: Period
+      value_format:
+      value_format_name:
+      dimension: period
+      _kind_hint: dimension
+      _type_hint: string
+    - category: dimension
+      expression: add_days(-7,now())
+      label: Release Time
+      value_format:
+      value_format_name:
+      dimension: release_time
+      _kind_hint: dimension
+      _type_hint: date
+    - category: dimension
+      expression: "${history.completed_date} = date(extract_years(${release_time}),extract_months(${release_time}),extract_days(${release_time}))"
+      label: Include Release Date (Yes/No)
+      value_format:
+      value_format_name:
+      dimension: include_release_date_yesno
+      _kind_hint: dimension
+      _type_hint: yesno
     query_timezone: UTC
     show_view_names: false
     show_row_numbers: true
@@ -110,13 +189,11 @@
     series_column_widths:
       history.real_dash_id: 186
       query.view: 169
-      history.completed_hour: 158
       under 10 sec|FIELD|before_percent_of_row_before: 82
       under 10 sec|FIELD|after_percent_change_from_previous_column_of_percent_of_row_after: 77
       under 15 sec|FIELD|after_percent_change_from_previous_column_of_percent_of_row_after: 75
       under 20 sec|FIELD|after_percent_change_from_previous_column_of_percent_of_row_after: 79
       under 10 sec|FIELD|before_running_percent_before: 97
-      release_date: 183
       release_time: 160
     series_cell_visualizations:
       history.queries_under_10s:
@@ -425,7 +502,6 @@
         - total_after
         - percent_of_row_before
         - running_percent_before
-    series_types: {}
     x_axis_gridlines: false
     y_axis_gridlines: true
     show_y_axis_labels: true
@@ -455,18 +531,45 @@
     hidden_points_if_no: []
     title_hidden: true
     listen:
-      Completed Date: history.completed_date
-      Dashboard ID (Inclusive): history.real_dash_id
       Explore: query.view
+      Date Range: history.completed_date
+      Dashboard: history.real_dash_id
+    row: 6
+    col: 0
+    width: 24
+    height: 7
+  - name: ''
+    type: text
+    title_text: ''
+    subtitle_text: ''
+    body_text: '[{"type":"p","children":[{"text":"How to use:","bold":true}],"id":1701902185463},{"type":"ul","children":[{"type":"li","children":[{"type":"lic","children":[{"text":"This
+      dashboard is designed to compare Looker History statistics before and after
+      the release/change/issue"}],"id":1680749533581}],"id":1680749551915},{"type":"li","children":[{"type":"lic","children":[{"text":"⚠️  release
+      time is set to 7 days prior to current date. If it needs to be hardcoded to
+      some specific date then It needs to modify the tile by using \"explore from
+      here\" feature and adjust "},{"text":"release time","color":"hsl(218, 67%, 43%)","underline":true},{"text":"
+      custom dimension."}],"id":1701902307866}],"id":1701902307866},{"type":"li","children":[{"type":"lic","id":1701902529999,"children":[{"text":"Included
+      filters: Date Range(14 days by default), Dashboard and Explore"}]}],"id":1701902530000},{"type":"li","children":[{"type":"lic","children":[{"text":"Measures,
+      presented on tile:"}],"id":1701902618366},{"type":"ul","children":[{"type":"li","children":[{"type":"lic","children":[{"text":"Totals
+      - total number of queries before/after release time"}],"id":1701902642717}],"id":1701902642717},{"type":"li","children":[{"type":"lic","children":[{"text":"below
+      Xs - queries, which runtime is less than X seconds"}],"id":1701902671930},{"type":"ul","children":[{"type":"li","children":[{"type":"lic","children":[{"text":"“#”
+      - number of queries"}],"id":1701902781960}],"id":1701902781960},{"type":"li","children":[{"type":"lic","children":[{"text":"%
+      from total - shows percent of below Xs against Totals"}],"id":1701902799876}],"id":1701902799876},{"type":"li","children":[{"type":"lic","children":[{"text":"%
+      total - cumulative % from total per bucket"}],"id":1701902958035}],"id":1701902958035},{"type":"li","children":[{"type":"lic","children":[{"text":"%
+      Diff from - difference between before and after within below Xs bucket"}],"id":1701903044136}],"id":1701903044136},{"type":"li","children":[{"type":"lic","children":[{"text":"%
+      Diff total - cumulative difference between before and after within below Xs
+      bucket"}],"id":1701903084400}],"id":1701903084400}],"id":1701902784012}],"id":1701902671930}],"id":1701902643123}],"id":1701902618366},{"type":"li","children":[{"type":"lic","children":[{"text":"It''s
+      possible to sort table by any column"}],"id":1701903013778}],"id":1701903013778}],"id":1701902185463}]'
+    rich_content_json: '{"format":"slate"}'
     row: 0
     col: 0
     width: 24
-    height: 12
+    height: 6
   filters:
-  - name: Completed Date
-    title: Completed Date
+  - name: Date Range
+    title: Date Range
     type: field_filter
-    default_value: 30 days
+    default_value: 14 day
     allow_multiple_values: true
     required: false
     ui_config:
@@ -477,8 +580,8 @@
     explore: history
     listens_to_filters: []
     field: history.completed_date
-  - name: Dashboard ID (Inclusive)
-    title: Dashboard ID (Inclusive)
+  - name: Dashboard
+    title: Dashboard
     type: field_filter
     default_value: ''
     allow_multiple_values: true
@@ -495,7 +598,7 @@
     type: field_filter
     default_value: history
     allow_multiple_values: true
-    required: true
+    required: false
     ui_config:
       type: advanced
       display: popover
