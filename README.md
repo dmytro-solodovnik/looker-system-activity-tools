@@ -1,4 +1,4 @@
-# Looker Accelerator
+# Looker System Activity Tools
 Goal of the project - share useful system activity analysis with Looker community \
 to be able to analyse the instance usage, performance and quickly find answers \
 on particular questions, such as detailed info about specific user queries.
@@ -12,4 +12,3 @@ and intended to extend the coverage for the system activity questions.
   [Article - Creating Looker usage reports with System Activity Explores](https://cloud.google.com/looker/docs/usage-reports-with-system-activity-explores)
 - Usage: \
   [Open Source and Licences - What is Commercial Open Source Software](https://www.webiny.com/blog/what-is-commercial-open-source)
-
