@@ -1,4 +1,4 @@
-project_name: "Looker Performance Tools"
+project_name: "Looker System Activity Tools"
 
 
 constant: CONNECTION_NAME {

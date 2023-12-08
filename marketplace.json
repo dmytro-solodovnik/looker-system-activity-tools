@@ -1,5 +1,5 @@
 {
-  "label": "Looker Accelerator",
+  "label": "Looker System Activity Tools",
   "category_label": "Models",
   "branding": {
     "image_uri": "https://github.com/dmytro-solodovnik/military-lifespan-prediction/blob/main/pict/hero-sunflower-meanings.png?raw=true",
@@ -14,7 +14,7 @@
     },
     "models": [
         {
-            "name": "looker_accelerator",
+            "name": "system_activity_tools",
             "connection_constant": "CONNECTION_NAME"
         }
     ]
