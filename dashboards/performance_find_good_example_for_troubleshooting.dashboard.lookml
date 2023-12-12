@@ -107,7 +107,7 @@
   - name: Dashboard ID
     title: Dashboard ID
     type: field_filter
-    default_value: ''
+    default_value: pa^_general::%,quality::%,meta::%,netflix::%,pinterest::%,snap::%,tiktok::%,twitter::%,youtube::%,reddit::%
     allow_multiple_values: true
     required: false
     ui_config:
