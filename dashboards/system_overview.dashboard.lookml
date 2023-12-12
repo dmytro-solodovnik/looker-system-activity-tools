@@ -1,8 +1,8 @@
-- dashboard: summary_stat
-  title: Summary Stat
+- dashboard: system_overview
+  title: '[System] Overview'
   layout: newspaper
   preferred_viewer: dashboards-next
-  description: 'Summary about current performance statistics'
+  description: 'General tech overview about usage, performance, errors and details of the queries'
   refresh: 1 hour
   query_timezone: user_timezone
   filters_bar_collapsed: true
@@ -59,7 +59,6 @@
     stacking: ''
     limit_displayed_rows: false
     legend_position: center
-    series_types: {}
     point_style: circle
     show_value_labels: false
     label_density: 25
@@ -93,25 +92,10 @@
           collection_label: DV Palette, palette_label: Sequential white to blue, palette_type: Sequential,
           palette_stops: [{color: "#FFFFFF", offset: 0}, {color: "#34B233", offset: 100}]},
         bold: false, italic: false, strikethrough: false, fields: []}]
-    series_value_format:
-      history.id:
-        name: id
-        format_string: '0'
-        label: ID
-      query.id:
-        name: id
-        format_string: '0'
-        label: ID
     hidden_fields: [history.database_result_query_count, history.cache_result_query_count,
       history.queries_under_10s, history.average_runtime, history.max_runtime]
     defaults_version: 1
     hidden_points_if_no: []
-    series_column_widths:
-      history.created_time: 158
-      user.name: 174
-      role.name: 176
-      role.embed: 139
-      user_facts.external_id: 175
     hidden_pivots: {}
     font_size: 12
     custom_color_enabled: true
@@ -121,10 +105,13 @@
     comparison_reverse_colors: false
     show_comparison_label: true
     listen:
-      Created Time: history.created_time
       Model: query.model
       User Name: user.name
       Slug: history.slug
+      Result Source: history.result_source
+      Dashboard ID (Inclusive): history.real_dash_id
+      Created Time: history.created_time
+      Explore: query.view
     row: 2
     col: 8
     width: 8
@@ -141,9 +128,15 @@
     sorts: [history.queries_under_10s desc 0]
     limit: 5000
     column_limit: 50
-    dynamic_fields: [{category: table_calculation, expression: "${history.queries_under_10s}/${history.count}*100",
-        label: "% under 10s", value_format: !!null '', value_format_name: !!null '',
-        _kind_hint: measure, table_calculation: under_10s, _type_hint: number}]
+    dynamic_fields:
+    - category: table_calculation
+      expression: "${history.queries_under_10s}/${history.count}*100"
+      label: "% under 10s"
+      value_format:
+      value_format_name:
+      _kind_hint: measure
+      table_calculation: under_10s
+      _type_hint: number
     query_timezone: user_timezone
     hidden_fields: [history.queries_under_10s, history.count]
     hidden_points_if_no: []
@@ -243,7 +236,6 @@
     stacking: ''
     limit_displayed_rows: false
     legend_position: center
-    series_types: {}
     point_style: circle
     show_value_labels: false
     label_density: 25
@@ -277,28 +269,16 @@
           collection_label: DV Palette, palette_label: Sequential white to blue, palette_type: Sequential,
           palette_stops: [{color: "#FFFFFF", offset: 0}, {color: "#34B233", offset: 100}]},
         bold: false, italic: false, strikethrough: false, fields: []}]
-    series_value_format:
-      history.id:
-        name: id
-        format_string: '0'
-        label: ID
-      query.id:
-        name: id
-        format_string: '0'
-        label: ID
     defaults_version: 0
-    series_column_widths:
-      history.created_time: 158
-      user.name: 174
-      role.name: 176
-      role.embed: 139
-      user_facts.external_id: 175
     hidden_pivots: {}
     listen:
-      Created Time: history.created_time
       Model: query.model
       User Name: user.name
       Slug: history.slug
+      Result Source: history.result_source
+      Dashboard ID (Inclusive): history.real_dash_id
+      Created Time: history.created_time
+      Explore: query.view
     row: 2
     col: 0
     width: 8
@@ -314,9 +294,16 @@
       history.status: complete
     limit: 5000
     column_limit: 50
-    dynamic_fields: [{category: table_calculation, expression: "${history.queries_under_10s}/${history.count}*100",
-        label: "% under 10s", value_format: !!null '', value_format_name: !!null '',
-        _kind_hint: measure, table_calculation: under_10s, _type_hint: number, is_disabled: true}]
+    dynamic_fields:
+    - category: table_calculation
+      expression: "${history.queries_under_10s}/${history.count}*100"
+      label: "% under 10s"
+      value_format:
+      value_format_name:
+      _kind_hint: measure
+      table_calculation: under_10s
+      _type_hint: number
+      is_disabled: true
     query_timezone: user_timezone
     x_axis_gridlines: false
     y_axis_gridlines: false
@@ -364,7 +351,6 @@
     x_axis_zoom: true
     y_axis_zoom: true
     font_size: '48'
-    series_types: {}
     series_labels: {}
     showComparison: false
     minValue: 0
@@ -451,28 +437,16 @@
           collection_label: DV Palette, palette_label: Sequential white to blue, palette_type: Sequential,
           palette_stops: [{color: "#FFFFFF", offset: 0}, {color: "#34B233", offset: 100}]},
         bold: false, italic: false, strikethrough: false, fields: []}]
-    series_value_format:
-      history.id:
-        name: id
-        format_string: '0'
-        label: ID
-      query.id:
-        name: id
-        format_string: '0'
-        label: ID
     defaults_version: 1
-    series_column_widths:
-      history.created_time: 158
-      user.name: 174
-      role.name: 176
-      role.embed: 139
-      user_facts.external_id: 175
     hidden_pivots: {}
     listen:
-      Created Time: history.created_time
       Model: query.model
       User Name: user.name
       Slug: history.slug
+      Result Source: history.result_source
+      Dashboard ID (Inclusive): history.real_dash_id
+      Created Time: history.created_time
+      Explore: query.view
     row: 2
     col: 16
     width: 8
@@ -490,20 +464,51 @@
     sorts: [runtime, dashboard_view]
     limit: 5000
     column_limit: 50
-    dynamic_fields: [{category: dimension, description: '', label: Dashboard View,
-        value_format: !!null '', value_format_name: !!null '', calculation_type: group_by,
-        dimension: dashboard_view, args: [history.real_dash_id, [!ruby/hash:ActiveSupport::HashWithIndifferentAccess {
-              label: 1 Overview, filter: "%overview%"}, !ruby/hash:ActiveSupport::HashWithIndifferentAccess {
-              label: 2 Authentic Ad, filter: "%authentic^_ad%"}, !ruby/hash:ActiveSupport::HashWithIndifferentAccess {
-              label: 6 ATTN, filter: "%auth^_attention%"}, !ruby/hash:ActiveSupport::HashWithIndifferentAccess {
-              label: 3 Viewability, filter: "%viewability%"}, !ruby/hash:ActiveSupport::HashWithIndifferentAccess {
-              label: 4 BMs, filter: "%benchmark%"}, !ruby/hash:ActiveSupport::HashWithIndifferentAccess {
-              label: 5 Video & CTV, filter: "%quality::video^_and^_ctv%"}], Other
-            Requests (API)], _kind_hint: dimension, _type_hint: string}, {category: dimension,
-        description: '', label: Runtime, value_format: !!null '', value_format_name: !!null '',
-        calculation_type: bin, dimension: runtime, args: [history.runtime, !!null '',
-          !!null '', !!null '', ['0', '5', '15', '60', '120'], classic], _kind_hint: dimension,
-        _type_hint: string}]
+    dynamic_fields:
+    - category: dimension
+      description: ''
+      label: Dashboard View
+      value_format:
+      value_format_name:
+      calculation_type: group_by
+      dimension: dashboard_view
+      args:
+      - history.real_dash_id
+      - - label: 1 Overview
+          filter: "%overview%"
+        - label: 2 Authentic Ad
+          filter: "%authentic^_ad%"
+        - label: 6 ATTN
+          filter: "%auth^_attention%"
+        - label: 3 Viewability
+          filter: "%viewability%"
+        - label: 4 BMs
+          filter: "%benchmark%"
+        - label: 5 Video & CTV
+          filter: "%quality::video^_and^_ctv%"
+      - Other Requests (API)
+      _kind_hint: dimension
+      _type_hint: string
+    - category: dimension
+      description: ''
+      label: Runtime
+      value_format:
+      value_format_name:
+      calculation_type: bin
+      dimension: runtime
+      args:
+      - history.runtime
+      -
+      -
+      -
+      - - '0'
+        - '5'
+        - '15'
+        - '60'
+        - '120'
+      - classic
+      _kind_hint: dimension
+      _type_hint: string
     query_timezone: user_timezone
     x_axis_gridlines: false
     y_axis_gridlines: false
@@ -547,7 +552,6 @@
     x_axis_zoom: true
     y_axis_zoom: true
     font_size: ''
-    series_types: {}
     series_labels: {}
     cluster_points: false
     quadrants_enabled: false
@@ -678,28 +682,16 @@
           collection_label: DV Palette, palette_label: Sequential white to blue, palette_type: Sequential,
           palette_stops: [{color: "#FFFFFF", offset: 0}, {color: "#34B233", offset: 100}]},
         bold: false, italic: false, strikethrough: false, fields: []}]
-    series_value_format:
-      history.id:
-        name: id
-        format_string: '0'
-        label: ID
-      query.id:
-        name: id
-        format_string: '0'
-        label: ID
     defaults_version: 1
-    series_column_widths:
-      history.created_time: 158
-      user.name: 174
-      role.name: 176
-      role.embed: 139
-      user_facts.external_id: 175
     hidden_pivots: {}
     listen:
-      Created Time: history.created_time
       Model: query.model
       User Name: user.name
       Slug: history.slug
+      Result Source: history.result_source
+      Dashboard ID (Inclusive): history.real_dash_id
+      Created Time: history.created_time
+      Explore: query.view
     row: 11
     col: 0
     width: 24
@@ -739,11 +731,8 @@
     truncate_header: false
     series_labels: {}
     series_column_widths:
-      history.created_time: 158
       user.name: 174
-      role.name: 176
       role.embed: 139
-      user_facts.external_id: 175
       user.id: 83
     series_cell_visualizations:
       query.count:
@@ -757,28 +746,22 @@
           palette_stops: [{color: "#FFFFFF", offset: 0}, {color: "#34B233", offset: 100}]},
         bold: false, italic: false, strikethrough: false, fields: []}]
     series_value_format:
-      history.id:
-        name: id
-        format_string: '0'
-        label: ID
-      query.id:
-        name: id
-        format_string: '0'
-        label: ID
       user.id:
         name: id
         format_string: '0'
         label: ID
     hidden_fields:
     defaults_version: 1
-    series_types: {}
     hidden_points_if_no: []
     hidden_pivots: {}
     listen:
-      Created Time: history.created_time
       Model: query.model
       User Name: user.name
       Slug: history.slug
+      Result Source: history.result_source
+      Dashboard ID (Inclusive): history.real_dash_id
+      Created Time: history.created_time
+      Explore: query.view
     row: 22
     col: 0
     width: 24
@@ -850,7 +833,6 @@
     stacking: ''
     limit_displayed_rows: false
     legend_position: center
-    series_types: {}
     point_style: circle
     show_value_labels: false
     label_density: 25
@@ -875,31 +857,19 @@
     show_totals: true
     show_row_totals: true
     truncate_header: false
-    series_value_format:
-      history.id:
-        name: id
-        format_string: '0'
-        label: ID
-      query.id:
-        name: id
-        format_string: '0'
-        label: ID
     hidden_fields: []
     defaults_version: 1
     hidden_points_if_no: []
-    series_column_widths:
-      history.created_time: 158
-      user.name: 174
-      role.name: 176
-      role.embed: 139
-      user_facts.external_id: 175
     hidden_pivots: {}
     font_size: 12
     listen:
-      Created Time: history.created_time
       Model: query.model
       User Name: user.name
       Slug: history.slug
+      Result Source: history.result_source
+      Dashboard ID (Inclusive): history.real_dash_id
+      Created Time: history.created_time
+      Explore: query.view
     row: 0
     col: 16
     width: 8
@@ -955,15 +925,17 @@
       history.dashboard_user:
         is_active: true
     truncate_column_names: true
-    series_types: {}
     hidden_fields: [count_of_errors]
     defaults_version: 1
     hidden_pivots: {}
     listen:
-      Created Time: history.created_time
       Model: query.model
       User Name: user.name
       Slug: history.slug
+      Result Source: history.result_source
+      Dashboard ID (Inclusive): history.real_dash_id
+      Created Time: history.created_time
+      Explore: query.view
     row: 33
     col: 0
     width: 24
@@ -984,22 +956,54 @@
         is_long: 'Yes'
         history.created_time: 25 hour ago for 24 hour
       sorts: [history.runtime desc]
+      limit: 5000
       column_limit: 50
-      dynamic_fields: [{category: table_calculation, expression: 'diff_days(to_date(${filter_date_start}),
-            to_date(${filter_date_end}))+1', label: Dates Selected, value_format: !!null '',
-          value_format_name: !!null '', _kind_hint: dimension, table_calculation: dates_selected,
-          _type_hint: number}, {category: dimension, expression: "${history.runtime}>=15",
-          label: Is Long, value_format: !!null '', value_format_name: !!null '', dimension: is_long,
-          _kind_hint: dimension, _type_hint: yesno}, {category: dimension, expression: 'substring(${query.filters},position(${query.filters},"datetime_filter")+18,42)',
-          label: Date Range Selected, value_format: !!null '', value_format_name: !!null '',
-          dimension: date_range_selected, _kind_hint: dimension, _type_hint: string},
-        {category: dimension, expression: 'replace(substring(${date_range_selected},
-            position(${date_range_selected}, "to")+3, 19),"/","-")', label: Filter
-            Date End, value_format: !!null '', value_format_name: !!null '', dimension: filter_date_end,
-          _kind_hint: dimension, _type_hint: string}, {category: dimension, expression: 'replace(substring(${date_range_selected},
-            0, abs(position(${date_range_selected}, "to")-2)),"/","-")', label: Filter
-            Date Start, value_format: !!null '', value_format_name: !!null '', dimension: filter_date_start,
-          _kind_hint: dimension, _type_hint: string}]
+      dynamic_fields:
+      - category: table_calculation
+        expression: diff_days(to_date(${filter_date_start}), to_date(${filter_date_end}))+1
+        label: Dates Selected
+        value_format:
+        value_format_name:
+        _kind_hint: dimension
+        table_calculation: dates_selected
+        _type_hint: number
+      - category: dimension
+        expression: "${history.runtime}>=15"
+        label: Is Long
+        value_format:
+        value_format_name:
+        dimension: is_long
+        _kind_hint: dimension
+        _type_hint: yesno
+      - category: dimension
+        expression: substring(${query.filters},position(${query.filters},"datetime_filter")+18,42)
+        label: Date Range Selected
+        value_format:
+        value_format_name:
+        dimension: date_range_selected
+        _kind_hint: dimension
+        _type_hint: string
+      - category: dimension
+        expression: |-
+          if(position(${date_range_selected}, "\",")>0,
+            replace(substring(${date_range_selected}, position(${date_range_selected}, "to")+3, 16),"/","-"),
+          replace(substring(${date_range_selected}, position(${date_range_selected}, "to")+3, 19),"/","-")
+          )
+        label: Filter Date End
+        value_format:
+        value_format_name:
+        dimension: filter_date_end
+        _kind_hint: dimension
+        _type_hint: string
+      - category: dimension
+        expression: replace(substring(${date_range_selected}, 0, abs(position(${date_range_selected},
+          "to")-2)),"/","-")
+        label: Filter Date Start
+        value_format:
+        value_format_name:
+        dimension: filter_date_start
+        _kind_hint: dimension
+        _type_hint: string
       hidden_pivots: {}
       hidden_fields: [filter_date_start, filter_date_end, history.id]
       join_fields: []
@@ -1016,26 +1020,60 @@
       sorts: [history.runtime desc]
       limit: 5000
       column_limit: 50
-      dynamic_fields: [{category: dimension, expression: "${history.runtime}>=15",
-          label: Is Long, value_format: !!null '', value_format_name: !!null '', dimension: is_long,
-          _kind_hint: dimension, _type_hint: yesno}, {category: dimension, expression: 'position(${sql_text.sql_text},".LOB_ID
-            in (") > 0', label: Lob ID Based, value_format: !!null '', value_format_name: !!null '',
-          dimension: lob_id_based, _kind_hint: dimension, _type_hint: yesno}, {category: dimension,
-          expression: 'position(${sql_text.sql_text}, ".MEDIA_PROPERTY_INTERNAL_ID
-            in (") > 0', label: MProp ID Based, value_format: !!null '', value_format_name: !!null '',
-          dimension: mprop_id_based, _kind_hint: dimension, _type_hint: yesno}, {
-          category: dimension, expression: 'position(${sql_text.sql_text}, "where
-            supplier_name in (") >0', label: Is Supplier Name filter, value_format: !!null '',
-          value_format_name: !!null '', dimension: is_supplier_name_filter, _kind_hint: dimension,
-          _type_hint: yesno}, {category: dimension, expression: "position(${sql_text.sql_text},\"\
-            WHERE (IFNULL(\") > 0\nOR\nposition(\nsubstring(${sql_text.sql_text},position(${sql_text.sql_text},\
-            \ \"WHERE\"), length(${sql_text.sql_text}) - position(${sql_text.sql_text},\
-            \ \"WHERE\")), \"(IFNULL(\") > 0", label: Is Additional Filters (based
-            on ifnull), value_format: !!null '', value_format_name: !!null '', dimension: is_additional_filters_based_on_ifnull,
-          _kind_hint: dimension, _type_hint: yesno}, {category: dimension, expression: 'NOT
-            ${lob_id_based} AND NOT ${mprop_id_based} AND NOT ${is_supplier_name_filter}',
-          label: Is No Permissions, value_format: !!null '', value_format_name: !!null '',
-          dimension: is_no_permissions, _kind_hint: dimension, _type_hint: yesno}]
+      dynamic_fields:
+      - category: dimension
+        expression: "${history.runtime}>=15"
+        label: Is Long
+        value_format:
+        value_format_name:
+        dimension: is_long
+        _kind_hint: dimension
+        _type_hint: yesno
+      - category: dimension
+        expression: position(${sql_text.sql_text},".LOB_ID in (") > 0
+        label: Lob ID Based
+        value_format:
+        value_format_name:
+        dimension: lob_id_based
+        _kind_hint: dimension
+        _type_hint: yesno
+      - category: dimension
+        expression: position(${sql_text.sql_text}, ".MEDIA_PROPERTY_INTERNAL_ID in
+          (") > 0
+        label: MProp ID Based
+        value_format:
+        value_format_name:
+        dimension: mprop_id_based
+        _kind_hint: dimension
+        _type_hint: yesno
+      - category: dimension
+        expression: position(${sql_text.sql_text}, "where supplier_name in (") >0
+        label: Is Supplier Name filter
+        value_format:
+        value_format_name:
+        dimension: is_supplier_name_filter
+        _kind_hint: dimension
+        _type_hint: yesno
+      - category: dimension
+        expression: |-
+          position(${sql_text.sql_text},"WHERE (IFNULL(") > 0
+          OR
+          position(
+          substring(${sql_text.sql_text},position(${sql_text.sql_text}, "WHERE"), length(${sql_text.sql_text}) - position(${sql_text.sql_text}, "WHERE")), "(IFNULL(") > 0
+        label: Is Additional Filters (based on ifnull)
+        value_format:
+        value_format_name:
+        dimension: is_additional_filters_based_on_ifnull
+        _kind_hint: dimension
+        _type_hint: yesno
+      - category: dimension
+        expression: NOT ${lob_id_based} AND NOT ${mprop_id_based} AND NOT ${is_supplier_name_filter}
+        label: Is No Permissions
+        value_format:
+        value_format_name:
+        dimension: is_no_permissions
+        _kind_hint: dimension
+        _type_hint: yesno
       query_timezone: user_timezone
       hidden_fields: [history.id]
       hidden_points_if_no:
@@ -2000,15 +2038,23 @@
     series_column_widths:
       history.created_time: 150
     sorts: [needs_review desc]
-    dynamic_fields: [{category: table_calculation, expression: 'if(${lob_id_based}
-          = yes AND ${dates_selected} <= 30 AND NOT ${is_additional_filters_based_on_ifnull},"👀","⏸️")',
-        label: Needs review, value_format: !!null '', value_format_name: !!null '',
-        _kind_hint: dimension, table_calculation: needs_review, _type_hint: string}]
+    dynamic_fields:
+    - category: table_calculation
+      expression: if(${lob_id_based} = yes AND ${dates_selected} <= 30 AND NOT ${is_additional_filters_based_on_ifnull},"👀","⏸️")
+      label: Needs review
+      value_format:
+      value_format_name:
+      _kind_hint: dimension
+      table_calculation: needs_review
+      _type_hint: string
     listen:
-    - Created Time: history.created_time
-      Model: query.model
+    - Model: query.model
       User Name: user.name
       Slug: history.slug
+      Result Source: history.result_source
+      Dashboard ID (Inclusive): history.real_dash_id
+      Created Time: history.created_time
+      Explore: query.view
     - Created Time: history.created_time
     row: 44
     col: 0
@@ -2081,7 +2127,6 @@
     stacking: ''
     limit_displayed_rows: false
     legend_position: center
-    series_types: {}
     point_style: circle
     show_value_labels: false
     label_density: 25
@@ -2106,31 +2151,19 @@
     show_totals: true
     show_row_totals: true
     truncate_header: false
-    series_value_format:
-      history.id:
-        name: id
-        format_string: '0'
-        label: ID
-      query.id:
-        name: id
-        format_string: '0'
-        label: ID
     hidden_fields: []
     defaults_version: 1
     hidden_points_if_no: []
-    series_column_widths:
-      history.created_time: 158
-      user.name: 174
-      role.name: 176
-      role.embed: 139
-      user_facts.external_id: 175
     hidden_pivots: {}
     font_size: 12
     listen:
-      Created Time: history.created_time
       Model: query.model
       User Name: user.name
       Slug: history.slug
+      Result Source: history.result_source
+      Dashboard ID (Inclusive): history.real_dash_id
+      Created Time: history.created_time
+      Explore: query.view
     row: 0
     col: 0
     width: 8
@@ -2202,7 +2235,6 @@
     stacking: ''
     limit_displayed_rows: false
     legend_position: center
-    series_types: {}
     point_style: circle
     show_value_labels: false
     label_density: 25
@@ -2227,31 +2259,19 @@
     show_totals: true
     show_row_totals: true
     truncate_header: false
-    series_value_format:
-      history.id:
-        name: id
-        format_string: '0'
-        label: ID
-      query.id:
-        name: id
-        format_string: '0'
-        label: ID
     hidden_fields: []
     defaults_version: 1
     hidden_points_if_no: []
-    series_column_widths:
-      history.created_time: 158
-      user.name: 174
-      role.name: 176
-      role.embed: 139
-      user_facts.external_id: 175
     hidden_pivots: {}
     font_size: 12
     listen:
-      Created Time: history.created_time
       Model: query.model
       User Name: user.name
       Slug: history.slug
+      Result Source: history.result_source
+      Dashboard ID (Inclusive): history.real_dash_id
+      Created Time: history.created_time
+      Explore: query.view
     row: 0
     col: 8
     width: 8
@@ -2263,15 +2283,26 @@
     type: looker_column
     fields: [history.created_minute, history.count, result_source_groups]
     pivots: [result_source_groups]
-    filters:
-      history.result_source: "-NULL"
+    filters: {}
     sorts: [history.created_minute, result_source_groups]
     limit: 5000
-    dynamic_fields: [{category: dimension, description: '', label: Result Source Groups,
-        value_format: !!null '', value_format_name: !!null '', calculation_type: group_by,
-        dimension: result_source_groups, args: [history.result_source, [!ruby/hash:ActiveSupport::HashWithIndifferentAccess {
-              label: Cache, filter: 'cache,NULL', __FILE: DV_Users/dashboards/dashboard_performance.dashboard.lookml,
-              __LINE_NUM: 21}], Query], _kind_hint: dimension, _type_hint: string}]
+    dynamic_fields:
+    - category: dimension
+      description: ''
+      label: Result Source Groups
+      value_format:
+      value_format_name:
+      calculation_type: group_by
+      dimension: result_source_groups
+      args:
+      - history.result_source
+      - - label: Cache
+          filter: cache,NULL
+          __FILE: DV_Users/dashboards/dashboard_performance.dashboard.lookml
+          __LINE_NUM: 21
+      - Query
+      _kind_hint: dimension
+      _type_hint: string
     query_timezone: user_timezone
     x_axis_gridlines: false
     y_axis_gridlines: true
@@ -2307,17 +2338,19 @@
     x_axis_zoom: true
     y_axis_zoom: true
     hidden_series: [history.count, user.count]
-    series_types: {}
     show_null_points: true
     interpolation: linear
     defaults_version: 1
     hidden_fields: []
     hidden_pivots: {}
     listen:
-      Created Time: history.created_time
       Model: query.model
       User Name: user.name
       Slug: history.slug
+      Result Source: history.result_source
+      Dashboard ID (Inclusive): history.real_dash_id
+      Created Time: history.created_time
+      Explore: query.view
     row: 55
     col: 0
     width: 24
@@ -2347,22 +2380,54 @@
         is_long: 'Yes'
         history.created_time: 25 hour ago for 24 hour
       sorts: [history.runtime desc]
+      limit: 5000
       column_limit: 50
-      dynamic_fields: [{category: table_calculation, expression: 'diff_days(to_date(${filter_date_start}),
-            to_date(${filter_date_end}))+1', label: Dates Selected, value_format: !!null '',
-          value_format_name: !!null '', _kind_hint: dimension, table_calculation: dates_selected,
-          _type_hint: number}, {category: dimension, expression: "${history.runtime}>=15",
-          label: Is Long, value_format: !!null '', value_format_name: !!null '', dimension: is_long,
-          _kind_hint: dimension, _type_hint: yesno}, {category: dimension, expression: 'substring(${query.filters},position(${query.filters},"datetime_filter")+18,42)',
-          label: Date Range Selected, value_format: !!null '', value_format_name: !!null '',
-          dimension: date_range_selected, _kind_hint: dimension, _type_hint: string},
-        {category: dimension, expression: 'replace(substring(${date_range_selected},
-            position(${date_range_selected}, "to")+3, 19),"/","-")', label: Filter
-            Date End, value_format: !!null '', value_format_name: !!null '', dimension: filter_date_end,
-          _kind_hint: dimension, _type_hint: string}, {category: dimension, expression: 'replace(substring(${date_range_selected},
-            0, abs(position(${date_range_selected}, "to")-2)),"/","-")', label: Filter
-            Date Start, value_format: !!null '', value_format_name: !!null '', dimension: filter_date_start,
-          _kind_hint: dimension, _type_hint: string}]
+      dynamic_fields:
+      - category: table_calculation
+        expression: diff_days(to_date(${filter_date_start}), to_date(${filter_date_end}))+1
+        label: Dates Selected
+        value_format:
+        value_format_name:
+        _kind_hint: dimension
+        table_calculation: dates_selected
+        _type_hint: number
+      - category: dimension
+        expression: "${history.runtime}>=15"
+        label: Is Long
+        value_format:
+        value_format_name:
+        dimension: is_long
+        _kind_hint: dimension
+        _type_hint: yesno
+      - category: dimension
+        expression: substring(${query.filters},position(${query.filters},"datetime_filter")+18,42)
+        label: Date Range Selected
+        value_format:
+        value_format_name:
+        dimension: date_range_selected
+        _kind_hint: dimension
+        _type_hint: string
+      - category: dimension
+        expression: |-
+          if(position(${date_range_selected}, "\",")>0,
+            replace(substring(${date_range_selected}, position(${date_range_selected}, "to")+3, 16),"/","-"),
+          replace(substring(${date_range_selected}, position(${date_range_selected}, "to")+3, 19),"/","-")
+          )
+        label: Filter Date End
+        value_format:
+        value_format_name:
+        dimension: filter_date_end
+        _kind_hint: dimension
+        _type_hint: string
+      - category: dimension
+        expression: replace(substring(${date_range_selected}, 0, abs(position(${date_range_selected},
+          "to")-2)),"/","-")
+        label: Filter Date Start
+        value_format:
+        value_format_name:
+        dimension: filter_date_start
+        _kind_hint: dimension
+        _type_hint: string
       hidden_pivots: {}
       hidden_fields: [filter_date_start, filter_date_end, history.id]
       join_fields: []
@@ -2378,24 +2443,56 @@
         history.created_time: 25 hour ago for 24 hour
       sorts: [history.runtime desc]
       limit: 5000
-      dynamic_fields: [{category: dimension, expression: "${history.runtime}>=15",
-          label: Is Long, value_format: !!null '', value_format_name: !!null '', dimension: is_long,
-          _kind_hint: dimension, _type_hint: yesno}, {category: dimension, expression: 'position(${sql_text.sql_text},".LOB_ID
-            in (") > 0', label: Lob ID Based, value_format: !!null '', value_format_name: !!null '',
-          dimension: lob_id_based, _kind_hint: dimension, _type_hint: yesno}, {category: dimension,
-          expression: 'position(${sql_text.sql_text}, ".MEDIA_PROPERTY_INTERNAL_ID
-            in (") > 0', label: MProp ID Based, value_format: !!null '', value_format_name: !!null '',
-          dimension: mprop_id_based, _kind_hint: dimension, _type_hint: yesno}, {
-          category: dimension, expression: 'position(${sql_text.sql_text}, "where
-            supplier_name in (") >0', label: Is Supplier Name filter, value_format: !!null '',
-          value_format_name: !!null '', dimension: is_supplier_name_filter, _kind_hint: dimension,
-          _type_hint: yesno}, {category: dimension, expression: 'position(${sql_text.sql_text},"WHERE
-            (IFNULL(") > 0', label: Is Additional Filters, value_format: !!null '',
-          value_format_name: !!null '', dimension: is_additional_filters, _kind_hint: dimension,
-          _type_hint: yesno}, {category: dimension, expression: 'NOT ${lob_id_based}
-            AND NOT ${mprop_id_based} AND NOT ${is_supplier_name_filter}', label: Is
-            No Permissions, value_format: !!null '', value_format_name: !!null '',
-          dimension: is_no_permissions, _kind_hint: dimension, _type_hint: yesno}]
+      dynamic_fields:
+      - category: dimension
+        expression: "${history.runtime}>=15"
+        label: Is Long
+        value_format:
+        value_format_name:
+        dimension: is_long
+        _kind_hint: dimension
+        _type_hint: yesno
+      - category: dimension
+        expression: position(${sql_text.sql_text},".LOB_ID in (") > 0
+        label: Lob ID Based
+        value_format:
+        value_format_name:
+        dimension: lob_id_based
+        _kind_hint: dimension
+        _type_hint: yesno
+      - category: dimension
+        expression: position(${sql_text.sql_text}, ".MEDIA_PROPERTY_INTERNAL_ID in
+          (") > 0
+        label: MProp ID Based
+        value_format:
+        value_format_name:
+        dimension: mprop_id_based
+        _kind_hint: dimension
+        _type_hint: yesno
+      - category: dimension
+        expression: position(${sql_text.sql_text}, "where supplier_name in (") >0
+        label: Is Supplier Name filter
+        value_format:
+        value_format_name:
+        dimension: is_supplier_name_filter
+        _kind_hint: dimension
+        _type_hint: yesno
+      - category: dimension
+        expression: position(${sql_text.sql_text},"WHERE (IFNULL(") > 0
+        label: Is Additional Filters
+        value_format:
+        value_format_name:
+        dimension: is_additional_filters
+        _kind_hint: dimension
+        _type_hint: yesno
+      - category: dimension
+        expression: NOT ${lob_id_based} AND NOT ${mprop_id_based} AND NOT ${is_supplier_name_filter}
+        label: Is No Permissions
+        value_format:
+        value_format_name:
+        dimension: is_no_permissions
+        _kind_hint: dimension
+        _type_hint: yesno
       query_timezone: user_timezone
       hidden_fields: [history.id]
       hidden_points_if_no:
@@ -3415,31 +3512,65 @@
       pivots: []
     series_types: {}
     hidden_pivots: {}
-    dynamic_fields: [{category: table_calculation, expression: 'count(if(${lob_id_based}
-          = yes AND ${dates_selected} <= 30 AND NOT ${is_additional_filters},1,null))',
-        label: Need review, value_format: !!null '', value_format_name: id, _kind_hint: dimension,
-        table_calculation: need_review, _type_hint: number}, {category: table_calculation,
-        expression: 'count(${history.id})', label: Query Count, value_format: !!null '',
-        value_format_name: !!null '', _kind_hint: dimension, table_calculation: query_count,
-        _type_hint: number}, {category: table_calculation, expression: 'count(if(${lob_id_based}
-          = yes AND ${dates_selected} <= 30 AND NOT ${is_additional_filters},1,null))/count(${history.id})',
-        label: "% of needs review", value_format: !!null '', value_format_name: percent_1,
-        _kind_hint: dimension, table_calculation: of_needs_review, _type_hint: number},
-      {category: table_calculation, expression: 'count(if(${dates_selected} > 30,1,null))/count(${history.id})',
-        label: "% of >30 Days selected", value_format: !!null '', value_format_name: percent_1,
-        _kind_hint: dimension, table_calculation: of_30_days_selected, _type_hint: number},
-      {category: table_calculation, expression: 'count(if(NOT ${is_additional_filters},1,null))/count(${history.id})',
-        label: "% of additional filters used (based on ifnull condition)", value_format: !!null '',
-        value_format_name: percent_1, _kind_hint: dimension, table_calculation: of_additional_filters_used_based_on_ifnull_condition,
-        _type_hint: number}, {category: table_calculation, expression: 'count(if(NOT
-          ${lob_id_based},1,null))/count(${history.id})', label: "% of not LOB based\
-          \ queries", value_format: !!null '', value_format_name: percent_1, _kind_hint: dimension,
-        table_calculation: of_not_lob_based_queries, _type_hint: number}]
+    dynamic_fields:
+    - category: table_calculation
+      expression: count(if(${lob_id_based} = yes AND ${dates_selected} <= 30 AND NOT
+        ${is_additional_filters},1,null))
+      label: Need review
+      value_format:
+      value_format_name: id
+      _kind_hint: dimension
+      table_calculation: need_review
+      _type_hint: number
+    - category: table_calculation
+      expression: count(${history.id})
+      label: Query Count
+      value_format:
+      value_format_name:
+      _kind_hint: dimension
+      table_calculation: query_count
+      _type_hint: number
+    - category: table_calculation
+      expression: count(if(${lob_id_based} = yes AND ${dates_selected} <= 30 AND NOT
+        ${is_additional_filters},1,null))/count(${history.id})
+      label: "% of needs review"
+      value_format:
+      value_format_name: percent_1
+      _kind_hint: dimension
+      table_calculation: of_needs_review
+      _type_hint: number
+    - category: table_calculation
+      expression: count(if(${dates_selected} > 30,1,null))/count(${history.id})
+      label: "% of >30 Days selected"
+      value_format:
+      value_format_name: percent_1
+      _kind_hint: dimension
+      table_calculation: of_30_days_selected
+      _type_hint: number
+    - category: table_calculation
+      expression: count(if(NOT ${is_additional_filters},1,null))/count(${history.id})
+      label: "% of additional filters used (based on ifnull condition)"
+      value_format:
+      value_format_name: percent_1
+      _kind_hint: dimension
+      table_calculation: of_additional_filters_used_based_on_ifnull_condition
+      _type_hint: number
+    - category: table_calculation
+      expression: count(if(NOT ${lob_id_based},1,null))/count(${history.id})
+      label: "% of not LOB based queries"
+      value_format:
+      value_format_name: percent_1
+      _kind_hint: dimension
+      table_calculation: of_not_lob_based_queries
+      _type_hint: number
     listen:
-    - Created Time: history.created_time
-      Model: query.model
+    - Model: query.model
       User Name: user.name
       Slug: history.slug
+      Result Source: history.result_source
+      Dashboard ID (Inclusive): history.real_dash_id
+      Created Time: history.created_time
+      Explore: query.view
     - Created Time: history.created_time
     row: 38
     col: 0
@@ -3448,18 +3579,22 @@
   filters:
   - name: Created Time
     title: Created Time
-    type: date_filter
-    default_value: 25 hour ago for 24 hour
-    allow_multiple_values: true
+    type: field_filter
+    default_value: 24 hour ago for 24 hour
+    allow_multiple_values: false
     required: false
     ui_config:
       type: advanced
       display: popover
       options: []
+    model: system__activity
+    explore: history
+    listens_to_filters: []
+    field: history.created_time
   - name: Model
     title: Model
     type: field_filter
-    default_value: quality
+    default_value: ''
     allow_multiple_values: true
     required: false
     ui_config:
@@ -3469,6 +3604,19 @@
     explore: history
     listens_to_filters: []
     field: query.model
+  - name: Dashboard ID (Inclusive)
+    title: Dashboard ID (Inclusive)
+    type: field_filter
+    default_value: pa^_general::%,quality::%,meta::%,netflix::%,pinterest::%,snap::%,tiktok::%,twitter::%,youtube::%,reddit::%
+    allow_multiple_values: true
+    required: false
+    ui_config:
+      type: advanced
+      display: popover
+    model: system__activity
+    explore: history
+    listens_to_filters: []
+    field: history.real_dash_id
   - name: User Name
     title: User Name
     type: field_filter
@@ -3495,3 +3643,29 @@
     explore: history
     listens_to_filters: []
     field: history.slug
+  - name: Result Source
+    title: Result Source
+    type: field_filter
+    default_value: "-NULL"
+    allow_multiple_values: true
+    required: false
+    ui_config:
+      type: advanced
+      display: popover
+    model: system__activity
+    explore: history
+    listens_to_filters: []
+    field: history.result_source
+  - name: Explore
+    title: Explore
+    type: field_filter
+    default_value: ''
+    allow_multiple_values: true
+    required: false
+    ui_config:
+      type: advanced
+      display: popover
+    model: system__activity
+    explore: history
+    listens_to_filters: []
+    field: query.view

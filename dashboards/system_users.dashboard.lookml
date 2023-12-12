@@ -1,8 +1,8 @@
-- dashboard: end_user_behaviour
-  title: End User Behaviour
+- dashboard: system_users
+  title: '[System] Users'
   layout: newspaper
   preferred_viewer: dashboards-next
-  description: 'End User Behaviour'
+  description: 'Users Behaviour'
   refresh: 1 hour
   query_timezone: user_timezone
   filters_bar_collapsed: true
@@ -47,6 +47,7 @@
       Salesforce External ID: user_facts.external_id
       Looker User ID: user_facts.user_id
       Query Status: history.status
+      Result Source: history.result_source
     row: 6
     col: 16
     width: 8
@@ -122,6 +123,7 @@
       Salesforce External ID: user_facts.external_id
       Looker User ID: user_facts.user_id
       Query Status: history.status
+      Result Source: history.result_source
     row: 6
     col: 0
     width: 8
@@ -176,6 +178,9 @@
       Is Embed (Yes / No): user_facts.is_embed
       Salesforce External ID: user_facts.external_id
       Looker User ID: user_facts.user_id
+      Result Source: history.result_source
+      LookML Dashboard: history.real_dash_id
+      Query Status: history.status
     row: 15
     col: 0
     width: 24
@@ -227,6 +232,7 @@
       Salesforce External ID: user_facts.external_id
       Looker User ID: user_facts.user_id
       Query Status: history.status
+      Result Source: history.result_source
     row: 6
     col: 8
     width: 8
@@ -320,6 +326,9 @@
       Is Embed (Yes / No): user_facts.is_embed
       Salesforce External ID: user_facts.external_id
       Looker User ID: user_facts.user_id
+      Result Source: history.result_source
+      LookML Dashboard: history.real_dash_id
+      Query Status: history.status
     row: 20
     col: 0
     width: 24
@@ -373,10 +382,11 @@
     series_types: {}
     listen:
       Completed Date: history.completed_date
-      LookML Dashboard: history.real_dash_id
       Is Embed (Yes / No): user_facts.is_embed
       Salesforce External ID: user_facts.external_id
       Looker User ID: user_facts.user_id
+      Result Source: history.result_source
+      LookML Dashboard: history.real_dash_id
       Query Status: history.status
     row: 0
     col: 18
@@ -444,10 +454,11 @@
     defaults_version: 1
     listen:
       Completed Date: history.completed_date
-      LookML Dashboard: history.real_dash_id
       Is Embed (Yes / No): user_facts.is_embed
       Salesforce External ID: user_facts.external_id
       Looker User ID: user_facts.user_id
+      Result Source: history.result_source
+      LookML Dashboard: history.real_dash_id
       Query Status: history.status
     row: 0
     col: 0
@@ -525,6 +536,7 @@
       Salesforce External ID: user_facts.external_id
       Looker User ID: user_facts.user_id
       Query Status: history.status
+      Result Source: history.result_source
     row: 0
     col: 6
     width: 12
@@ -589,6 +601,7 @@
       Salesforce External ID: user_facts.external_id
       Looker User ID: user_facts.user_id
       Query Status: history.status
+      Result Source: history.result_source
     row: 3
     col: 18
     width: 6
@@ -625,6 +638,7 @@
       Salesforce External ID: user_facts.external_id
       Looker User ID: user_facts.user_id
       Query Status: history.status
+      Result Source: history.result_source
     row: 3
     col: 0
     width: 6
@@ -737,7 +751,7 @@
   - name: LookML Dashboard
     title: LookML Dashboard
     type: field_filter
-    default_value: pa^_general%,quality%
+    default_value: pa^_general::%,quality::%,meta::%,netflix::%,pinterest::%,snap::%,tiktok::%,twitter::%,youtube::%,reddit::%
     allow_multiple_values: true
     required: false
     ui_config:
@@ -761,7 +775,7 @@
   - name: Salesforce External ID
     title: Salesforce External ID
     type: field_filter
-    default_value: "-0055d00000BQu1bAAD,-0055d00000BE4rgAAD"
+    default_value: ""
     allow_multiple_values: true
     required: false
     ui_config:
@@ -791,7 +805,7 @@
   - name: Query Status
     title: Query Status
     type: field_filter
-    default_value: complete
+    default_value: ''
     allow_multiple_values: true
     required: false
     ui_config:
@@ -802,3 +816,16 @@
     explore: history
     listens_to_filters: []
     field: history.status
+  - name: Result Source
+    title: Result Source
+    type: field_filter
+    default_value: "-NULL"
+    allow_multiple_values: true
+    required: false
+    ui_config:
+      type: advanced
+      display: popover
+    model: system__activity
+    explore: history
+    listens_to_filters: []
+    field: history.result_source

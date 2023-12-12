@@ -1,5 +1,5 @@
-- dashboard: dashboards_performance
-  title: Dashboards Performance
+- dashboard: performance_overview
+  title: '[Performance] Overview'
   layout: newspaper
   preferred_viewer: dashboards-next
   description: 'Dashboards Performance'
@@ -340,7 +340,7 @@
   - name: LookML Dashboard
     title: LookML Dashboard
     type: field_filter
-    default_value: pa^_general%,quality%
+    default_value: pa^_general::%,quality::%,meta::%,netflix::%,pinterest::%,snap::%,tiktok::%,twitter::%,youtube::%,reddit::%
     allow_multiple_values: true
     required: false
     ui_config:
